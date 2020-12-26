@@ -2,6 +2,9 @@ abstract class UserData {
   static const String USER_DATA_TABLE = "user_data";
   static const String NAME = "name";
   static const String ID = "userID";
+  static const String GPA = "gpa";
+  static const String COMPLETED_HOURS = "completed_hours";
+  static const String REGISTERED_HOURS = "registered_hours";
   static const String MAJOR = "department";
   static const String DIVISION = "division";
   static const String MINOR = "minor";
