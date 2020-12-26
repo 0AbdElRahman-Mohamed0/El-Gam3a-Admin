@@ -1,6 +1,9 @@
+import 'package:elgam3a_admin/screens/add_doctor_screen.dart';
+import 'package:elgam3a_admin/screens/add_student_screen.dart';
 import 'package:elgam3a_admin/screens/add_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -65,13 +68,47 @@ class DashboardScreen extends StatelessWidget {
               DrawerOption(
                 optionName: 'ADD USER',
                 onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddUserScreen(),
+                  Alert(
+                    context: context,
+                    title: 'Choose user type.',
+                    style: AlertStyle(
+                      titleStyle: Theme.of(context).textTheme.headline6,
                     ),
-                  );
+                    buttons: [
+                      DialogButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddDoctorScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Doctor',
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
+                      ),
+                      DialogButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddStudentScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Student',
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
+                      ),
+                    ],
+                  ).show();
                 },
               ),
               DrawerOption(

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/services/vars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiProvider {
   ApiProvider._();
@@ -23,13 +22,13 @@ class ApiProvider {
   }
   ////
 
-  Future<void> addNewUser(UserModel user, String pass) async {
+  Future<void> addNewStudent(UserModel user, String pass) async {
     await auth.createUserWithEmailAndPassword(
       email: user.email,
       password: pass,
     );
     await firestore
-        .collection(UserData.USER_DATA_TABLE)
+        .collection(UserData.STUDENT_DATA_TABLE)
         .doc(FirebaseAuth.instance.currentUser.uid)
         .set(user.toMap());
   }

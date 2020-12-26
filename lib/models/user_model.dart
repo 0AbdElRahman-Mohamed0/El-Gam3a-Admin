@@ -3,6 +3,7 @@ import 'package:elgam3a_admin/services/vars.dart';
 class UserModel {
   String email;
   String name;
+  String division;
   String department;
   String minor;
   String type;
@@ -16,6 +17,7 @@ class UserModel {
     this.type,
     this.name,
     this.email,
+    this.division,
     this.department,
     this.minor,
     this.phoneNumber,
@@ -26,6 +28,7 @@ class UserModel {
   });
   UserModel.fromMap(Map<String, dynamic> m) {
     email = m[UserData.EMAIL];
+    division = m[UserData.DIVISION];
     department = m[UserData.MAJOR];
     minor = m[UserData.MINOR];
     name = m[UserData.NAME];
@@ -40,7 +43,8 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       UserData.EMAIL: email,
-      UserData.MAJOR: department,
+      UserData.DIVISION: division,
+      UserData.MAJOR: department ?? '',
       UserData.MINOR: minor ?? '',
       UserData.NAME: name,
       UserData.TYPE: type,
@@ -55,6 +59,7 @@ class UserModel {
   UserModel copyWith({
     String email,
     String name,
+    String division,
     String department,
     String minor,
     String type,
@@ -67,6 +72,7 @@ class UserModel {
     return UserModel(
       email: email ?? this.email,
       name: name ?? this.name,
+      division: division ?? this.division,
       department: department ?? this.department,
       minor: minor ?? this.minor,
       type: type ?? this.type,

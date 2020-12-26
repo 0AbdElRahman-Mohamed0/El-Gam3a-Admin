@@ -7,6 +7,7 @@ class TextDataField extends StatefulWidget {
   final String labelName;
   final String initialValue;
   final String hintText;
+  final int maxLength;
   final Function onSaved;
   final Validator validator;
   final TextInputType keyboardType;
@@ -23,6 +24,7 @@ class TextDataField extends StatefulWidget {
     this.keyboardType,
     this.suffixIcon,
     this.inputFormatters,
+    this.maxLength,
   });
 
   @override
@@ -43,6 +45,7 @@ class _TextDataFieldState extends State<TextDataField> {
           height: 6,
         ),
         TextFormField(
+          maxLength: widget.maxLength,
           controller: widget.controller,
           keyboardType: widget.keyboardType == TextInputType.number
               ? TextInputType.number
@@ -55,6 +58,7 @@ class _TextDataFieldState extends State<TextDataField> {
           onSaved: widget.onSaved,
           validator: widget.validator,
           decoration: InputDecoration(
+            counterText: "",
             contentPadding: EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 17.6,

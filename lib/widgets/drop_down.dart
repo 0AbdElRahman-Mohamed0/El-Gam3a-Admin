@@ -10,6 +10,7 @@ class DropDown<T> extends StatefulWidget {
   final FormFieldValidator<T> validator;
   final FormFieldSetter<T> onSaved;
   final Widget prefixIcon;
+  final bool needSpace;
 
   const DropDown({
     Key key,
@@ -21,6 +22,7 @@ class DropDown<T> extends StatefulWidget {
     @required this.validator,
     @required this.onSaved,
     this.prefixIcon,
+    this.needSpace = true,
   }) : super(key: key);
 
   @override
@@ -57,10 +59,6 @@ class _DropDownState<T> extends State<DropDown<T>> {
         ),
         SizedBox(height: 6),
         DropdownButtonFormField<T>(
-          icon: Padding(
-            padding: EdgeInsets.only(right: 5.0),
-            child: SvgPicture.asset('assets/svg/arrow_downward.svg'),
-          ),
           value: widget.value,
           onChanged: widget.onChanged,
           hint: Text(
@@ -97,9 +95,11 @@ class _DropDownState<T> extends State<DropDown<T>> {
             ),
           ),
         ),
-        SizedBox(
-          height: 21,
-        ),
+        widget.needSpace
+            ? SizedBox(
+                height: 21,
+              )
+            : SizedBox(),
       ],
     );
   }

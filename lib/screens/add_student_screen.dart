@@ -1,6 +1,11 @@
+import 'package:elgam3a_admin/models/user_model.dart';
+import 'package:elgam3a_admin/providers/users_provider.dart';
+import 'package:elgam3a_admin/utilities/loading.dart';
+import 'package:elgam3a_admin/widgets/drop_down.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddStudentScreen extends StatefulWidget {
   @override
@@ -9,12 +14,59 @@ class AddStudentScreen extends StatefulWidget {
 
 class _AddStudentScreenState extends State<AddStudentScreen> {
   final _formKey = GlobalKey<FormState>();
-
   bool _autoValidate = false;
 
   String _name;
-
+  String _univID;
   String _phoneNumber;
+  String _email;
+  String _division;
+
+  bool divisionSelected = true;
+
+  List<String> divisions = [
+    'Natural Science',
+    'Biology',
+    'Geology',
+  ];
+
+  _submit() async {
+    if (!_formKey.currentState.validate()) {
+      if (_division == null) divisionSelected = false;
+      setState(() => _autoValidate = true);
+      return;
+    }
+    _formKey.currentState.save();
+    try {
+      LoadingScreen.show(context);
+      final user = UserModel(
+        name: _name,
+        type: 'Student',
+        phoneNumber: _phoneNumber,
+        email: _email,
+        division: _division,
+        univID: _univID,
+      );
+      final pass = context.read<UsersProvider>().getRandomPassword();
+      print(pass);
+      await context.read<UsersProvider>().addNewStudent(user, '111111');
+      Navigator.pop(context);
+      Alert(
+        context: context,
+        title: 'User added',
+        desc: 'Email : $_email\nPassword : $pass',
+        style: AlertStyle(
+          titleStyle: Theme.of(context).textTheme.headline6,
+          descStyle: Theme.of(context).textTheme.headline1,
+        ),
+      ).show();
+      _formKey.currentState.reset();
+    } catch (e, s) {
+      Navigator.pop(context);
+      print(e);
+      print(s);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,84 +123,67 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     ],
                   ),
                 ),
-                Icon(Icons.perso),
-                DropDown<UomModel>(
-                  labelText: 'Uom',
-                  hintText: 'Select Uom',
-                  onChanged: (value) {
-                    _newUom = value;
-                    setState(() {});
+                TextDataField(
+                  labelName: 'Email',
+                  hintText: 'Enter Email',
+                  onSaved: (email) {
+                    _email = email;
                   },
-                  validator: null,
-                  list: uoms,
-                  onSaved: (value) {
-                    _newUom = value;
-                    setState(() {});
-                  },
+                  validator: Validator(
+                    rules: [
+                      RequiredRule(validationMessage: 'Email is required.'),
+                    ],
+                  ),
                 ),
                 TextDataField(
+                  maxLength: 11,
                   keyboardType: TextInputType.number,
-                  labelName: 'Measure',
-                  hintText: 'Enter Measure',
-                  onSaved: (measure) {
-                    _measure = measure;
-                  },
-                ),
-                TextDataField(
-                  controller: _barcodeController,
-                  keyboardType: TextInputType.number,
-                  labelName: 'Barcode',
-                  hintText: 'Enter Barcode',
-                  onSaved: (barcode) {
-                    if (barcode != null || !isBlank(barcode))
-                      _barcode = barcode;
+                  labelName: 'Student ID',
+                  hintText: 'Enter Student ID',
+                  onSaved: (univID) {
+                    _univID = univID;
                   },
                   validator: Validator(
                     rules: [
                       RequiredRule(
-                        validationMessage: 'Barcode is required.',
-                      ),
-                      MinLengthRule(
-                        3,
-                        validationMessage:
-                            'Barcode should have at least 3 characters.',
-                      ),
+                          validationMessage: 'Student ID is required.'),
+                      MinLengthRule(11,
+                          validationMessage: 'Student ID should be 11 number.'),
                     ],
                   ),
-                  suffixIcon: GestureDetector(
-                    onTap: () => _scanQr(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        'assets/icons/badge.png',
-                        height: 24.0,
-                        width: 24.0,
+                ),
+                DropDown(
+                  needSpace: false,
+                  labelText: 'Division',
+                  hintText: 'Select division',
+                  onChanged: (value) {
+                    _division = value;
+                    divisionSelected = true;
+                    setState(() {});
+                  },
+                  list: divisions,
+                  onSaved: (value) {
+                    _division = value;
+                    divisionSelected = true;
+                    setState(() {});
+                  },
+                ),
+                divisionSelected
+                    ? SizedBox()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'You must choose division.',
+                            style: TextStyle(
+                              color: Theme.of(context).errorColor,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
+                SizedBox(
+                  height: 21,
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                      activeColor: Theme.of(context).primaryColor,
-                      checkColor: Colors.white,
-                      value: _isLocal,
-                      onChanged: (value) {
-                        setState(() {
-                          _isLocal = value;
-                        });
-                      },
-                    ),
-                    Text(
-                      'isLocal',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline2
-                          .copyWith(fontSize: 16),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 32),
                 GestureDetector(
                   onTap: () => _submit(),
                   child: Container(
@@ -156,17 +191,16 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     height: 48,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).buttonColor,
                     ),
                     child: Center(
                       child: Text(
-                        'FINISH',
+                        'Add Student',
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
               ],
             ),
           ),

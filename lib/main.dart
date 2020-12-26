@@ -1,4 +1,5 @@
 import 'package:elgam3a_admin/providers/auth_provider.dart';
+import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/screens/splash_screen.dart';
 import 'package:elgam3a_admin/utilities/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => UsersProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -12,9 +12,14 @@ class AddUserScreen extends StatelessWidget {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: center,
         children: [
-          //TODO : two options to choose between
-          //TODO : mtnsesh tzwdy el hashes bta3tek fe fire base admin w el 3ady
+          Container(
+            child: Icon(Icons.close),
+          ),
+          Container(
+            child: Icon(Icons.close),
+          ),
         ],
       ),
     );

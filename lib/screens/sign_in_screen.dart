@@ -204,7 +204,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          'FINISH',
+                          'Login',
                           style: Theme.of(context).textTheme.headline3,
                         ),
                       ),

@@ -9,7 +9,7 @@ class AppTheme {
     accentColor: Color(0xFFDD7215),
     focusColor: Color(0xFF6D8F8E),
     dividerColor: Color(0xFF9A9B9B),
-    cardColor: Colors.white,
+    cardColor: Color(0xFFF2F2F2),
     shadowColor: Color(0xFF000000).withOpacity(0.1),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Color(0xFF155E9F),
@@ -35,7 +35,7 @@ class AppTheme {
         fontFamily: 'Calibri',
         fontSize: 26,
         fontWeight: FontWeight.w700,
-        color: Color(0xFFF9BA00),
+        color: Color(0xFF425B53),
       ),
       ////
 
@@ -43,7 +43,7 @@ class AppTheme {
         fontFamily: 'Calibri',
         fontSize: 16,
         fontWeight: FontWeight.w400,
-        color: Color(0xFFF9BA00),
+        color: Color(0xFF425B53),
       ),
 
       headline2: TextStyle(
