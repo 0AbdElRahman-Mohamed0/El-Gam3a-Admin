@@ -48,7 +48,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         univID: _univID,
       );
       final pass = context.read<UsersProvider>().getRandomPassword();
-      print(pass);
+      //TODO: put generated pass instead of 111111
       await context.read<UsersProvider>().addNewStudent(user, '111111');
       Navigator.pop(context);
       Alert(
