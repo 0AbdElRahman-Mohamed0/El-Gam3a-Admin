@@ -28,7 +28,7 @@ class ApiProvider {
       password: pass,
     );
     await firestore
-        .collection(UserData.STUDENT_DATA_TABLE)
+        .collection(UserData.USER_DATA_TABLE)
         .doc(FirebaseAuth.instance.currentUser.uid)
         .set(user.toMap());
   }

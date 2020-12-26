@@ -1,5 +1,4 @@
 abstract class UserData {
-  static const String STUDENT_DATA_TABLE = "student_data";
   static const String USER_DATA_TABLE = "user_data";
   static const String NAME = "name";
   static const String ID = "userID";
