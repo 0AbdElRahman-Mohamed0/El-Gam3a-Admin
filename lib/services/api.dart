@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elgam3a_admin/models/course_model.dart';
 import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/services/vars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,7 @@ class ApiProvider {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
 //////////////////////////////////Auth////////////////////
-  // SingIn
+  // SignIn
   Future<void> signInUsingEmailAndPassword(
       String email, String password) async {
     await auth.signInWithEmailAndPassword(
@@ -31,6 +32,17 @@ class ApiProvider {
         .collection(UserData.USER_DATA_TABLE)
         .doc(FirebaseAuth.instance.currentUser.uid)
         .set(user.toMap());
+  }
+
+  /////// Add Course //////////////////////////////////////////////
+
+  Future<void> addCourse(CourseModel course) async {
+    final DocumentReference data =
+        await firestore.collection(CourseData.COURSE_TABLE).add(course.toMap());
+//    await firestore
+//        .collection(CourseData.COURSE_TABLE)
+//        .doc(data.id)
+//        .update({ProductCollection.ID: data.id});
   }
 
 //   //////////////FORGET PASSWORD//////////////////////////////////////

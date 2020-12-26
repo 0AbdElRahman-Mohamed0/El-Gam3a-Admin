@@ -1,3 +1,4 @@
+import 'package:elgam3a_admin/screens/add_course_screen.dart';
 import 'package:elgam3a_admin/screens/add_doctor_screen.dart';
 import 'package:elgam3a_admin/screens/add_student_screen.dart';
 import 'package:elgam3a_admin/screens/add_user_screen.dart';
@@ -114,12 +115,13 @@ class DashboardScreen extends StatelessWidget {
               DrawerOption(
                 optionName: 'ADD COURSE',
                 onPressed: () {
-                  //   return Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => BrandsScreen(),
-                  //   ),
-                  // );
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddCourseScreen(),
+                    ),
+                  );
                 },
               ),
               DrawerOption(

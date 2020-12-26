@@ -1,4 +1,5 @@
 import 'package:elgam3a_admin/providers/auth_provider.dart';
+import 'package:elgam3a_admin/providers/courses_provider.dart';
 import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/screens/splash_screen.dart';
 import 'package:elgam3a_admin/utilities/theme.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => UsersProvider()),
+        ChangeNotifierProvider(create: (_) => CoursesProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
