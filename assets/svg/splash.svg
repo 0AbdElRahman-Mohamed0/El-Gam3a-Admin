@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="96" viewBox="0 0 240 96">
+  <g id="Group_555" data-name="Group 555" transform="translate(-68 -286)">
+    <g id="Group_501" data-name="Group 501" transform="translate(-6 -33)">
+      <g id="LOGO" transform="translate(74 319)">
+        <g id="Rectangle_337" data-name="Rectangle 337" fill="none" stroke="#fff" stroke-width="1">
+          <rect width="96" height="96" rx="10" stroke="none"/>
+          <rect x="0.5" y="0.5" width="95" height="95" rx="9.5" fill="none"/>
+        </g>
+        <g id="Rectangle_338" data-name="Rectangle 338" transform="translate(0 18)" fill="none" stroke="#fff" stroke-width="1">
+          <rect width="96" height="60" rx="10" stroke="none"/>
+          <rect x="0.5" y="0.5" width="95" height="59" rx="9.5" fill="none"/>
+        </g>
+        <g id="Rectangle_339" data-name="Rectangle 339" transform="translate(78) rotate(90)" fill="none" stroke="#fff" stroke-width="1">
+          <rect width="96" height="60" rx="10" stroke="none"/>
+          <rect x="0.5" y="0.5" width="95" height="59" rx="9.5" fill="none"/>
+        </g>
+        <g id="Ellipse_287" data-name="Ellipse 287" transform="translate(18 18)" fill="none" stroke="#fff" stroke-width="1">
+          <circle cx="30" cy="30" r="30" stroke="none"/>
+          <circle cx="30" cy="30" r="29.5" fill="none"/>
+        </g>
+      </g>
+      <line id="Line_4" data-name="Line 4" y2="80" transform="translate(194 326.5)" fill="none" stroke="#fff" stroke-width="1"/>
+      <g id="Group_500" data-name="Group 500" transform="translate(8)">
+        <g id="Rectangle_344" data-name="Rectangle 344" transform="translate(210 337)" fill="none" stroke="#fff" stroke-width="1">
+          <rect width="96" height="12" rx="6" stroke="none"/>
+          <rect x="0.5" y="0.5" width="95" height="11" rx="5.5" fill="none"/>
+        </g>
+        <g id="Rectangle_345" data-name="Rectangle 345" transform="translate(210 360)" fill="none" stroke="#fff" stroke-width="1">
+          <rect width="96" height="12" rx="6" stroke="none"/>
+          <rect x="0.5" y="0.5" width="95" height="11" rx="5.5" fill="none"/>
+        </g>
+        <g id="Rectangle_346" data-name="Rectangle 346" transform="translate(210 382)" fill="none" stroke="#fff" stroke-width="1">
+          <rect width="96" height="12" rx="6" stroke="none"/>
+          <rect x="0.5" y="0.5" width="95" height="11" rx="5.5" fill="none"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

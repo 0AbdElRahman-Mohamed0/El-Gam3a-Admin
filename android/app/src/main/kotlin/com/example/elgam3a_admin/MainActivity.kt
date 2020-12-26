@@ -1,0 +1,6 @@
+package com.example.elgam3a_admin
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
