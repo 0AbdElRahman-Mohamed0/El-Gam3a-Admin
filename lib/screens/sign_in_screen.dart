@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:elgam3a_admin/providers/auth_provider.dart';
 import 'package:elgam3a_admin/screens/dashboard_screen.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
@@ -16,6 +18,25 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _autoValidate = false;
   String _email;
   String _password;
+  bool isWeb;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkPlatform();
+  }
+
+  _checkPlatform() {
+    try {
+      if (Platform.isAndroid || Platform.isIOS) {
+        isWeb = false;
+      } else {
+        isWeb = true;
+      }
+    } catch (e) {
+      isWeb = true;
+    }
+  }
 
   _submit() async {
     if (!_formKey.currentState.validate()) {
@@ -106,7 +127,9 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 11.6),
+        padding: isWeb
+            ? EdgeInsets.symmetric(horizontal: 200)
+            : EdgeInsets.symmetric(horizontal: 12),
         child: Stack(
           children: [
             // Positioned(
