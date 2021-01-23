@@ -3,6 +3,7 @@ import 'package:elgam3a_admin/models/course_model.dart';
 import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/services/vars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ApiProvider {
   ApiProvider._();
@@ -11,6 +12,9 @@ class ApiProvider {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  UserModel user;
+  CourseModel course;
 
 //////////////////////////////////Auth////////////////////
   // SignIn
@@ -43,6 +47,83 @@ class ApiProvider {
 //        .collection(CourseData.COURSE_TABLE)
 //        .doc(data.id)
 //        .update({ProductCollection.ID: data.id});
+  }
+
+  ///////////// DELETE USER //////////////////////////
+  Future<void> deleteUser(String univID) async {
+    await firestore
+        .collection(UserData.USER_DATA_TABLE)
+        .where(UserData.UNIV_ID, isEqualTo: univID)
+        .get()
+        .then((value) async {
+      final db = firestore.batch();
+
+      for (final i in value.docs) {
+        db.delete(i.reference);
+      }
+
+      await db.commit();
+    });
+  }
+
+//  Future<void> signInUsingEmailAndPassword(
+//      String email, String password) async {
+//    await auth
+//      ..delete();
+//  }
+
+  // Get Data
+  Future<UserModel> getDataOfStudentByUnivID(String univID) async {
+    final _response = await firestore
+        .collection(UserData.USER_DATA_TABLE)
+        .where(UserData.UNIV_ID, isEqualTo: univID)
+        .get();
+    if (_response.docs.isNotEmpty) {
+      user = UserModel.fromMap(_response.docs.first.data());
+      return user;
+    } else {
+      print('api Error@getDataOfStudentByUnivID');
+      // Err
+      return user;
+    }
+  }
+
+  Future<void> deleteFireBaseStorageImage(String filePath) async {
+    await FirebaseStorage.instance.ref().child(filePath).delete().whenComplete(
+        () => print('Successfully deleted $filePath storage item'));
+  }
+
+  //////////////////////GET COURSE BY CODE/////////////////////////////
+  Future<CourseModel> getCourseByCode(String courseCode) async {
+    final _response = await firestore
+        .collection(CourseData.COURSE_TABLE)
+        .where(CourseData.CODE, isEqualTo: courseCode)
+        .get();
+    if (_response.docs.isNotEmpty) {
+      course = CourseModel.fromMap(_response.docs.first.data());
+      return course;
+    } else {
+      print('api Error@getCourseByCode');
+      // Err
+      return course;
+    }
+  }
+
+  ///////////// DELETE COURSE //////////////////////////
+  Future<void> deleteCourse(String courseCode) async {
+    await firestore
+        .collection(CourseData.COURSE_TABLE)
+        .where(CourseData.CODE, isEqualTo: courseCode)
+        .get()
+        .then((value) async {
+      final db = firestore.batch();
+
+      for (final i in value.docs) {
+        db.delete(i.reference);
+      }
+
+      await db.commit();
+    });
   }
 
 //   //////////////FORGET PASSWORD//////////////////////////////////////

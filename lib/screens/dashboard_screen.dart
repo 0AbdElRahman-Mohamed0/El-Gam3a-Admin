@@ -2,6 +2,8 @@ import 'package:elgam3a_admin/screens/add_course_screen.dart';
 import 'package:elgam3a_admin/screens/add_doctor_screen.dart';
 import 'package:elgam3a_admin/screens/add_student_screen.dart';
 import 'package:elgam3a_admin/screens/add_user_screen.dart';
+import 'package:elgam3a_admin/screens/delete_course_screen.dart';
+import 'package:elgam3a_admin/screens/delete_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -153,14 +155,26 @@ class DashboardScreen extends StatelessWidget {
                 remove: true,
                 optionName: 'REMOVE USER',
                 onPressed: () {
-                  print('REMOVE USER');
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DeleteUserScreen(),
+                    ),
+                  );
                 },
               ),
               DrawerOption(
                 remove: true,
                 optionName: 'REMOVE COURSE',
                 onPressed: () {
-                  print('REMOVE COURSE');
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DeleteCourseScreen(),
+                    ),
+                  );
                 },
               ),
             ],

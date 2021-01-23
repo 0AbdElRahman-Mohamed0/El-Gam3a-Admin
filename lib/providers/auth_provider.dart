@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/services/api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,21 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> forgetPassword(String email) async {
+  Future<UserModel> getDataOfStudentByUnivID(String univID) async {
+    final user = await _api.getDataOfStudentByUnivID(univID);
+    return user;
+  }
+
+  Future<void> deleteUser(String univID) async {
+    await _api.deleteUser(univID);
+  }
+
+  /////// Delete fireStore image ////////
+  Future<void> deleteImage(String imagePath) async {
+    await _api.deleteFireBaseStorageImage(imagePath);
+  }
+
+// Future<void> forgetPassword(String email) async {
   //   await _api.forgetPassword(email);
   //   notifyListeners();
   // }
