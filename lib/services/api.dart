@@ -304,11 +304,12 @@ class ApiProvider {
 //   }
 //   ///////////////////////////////////////////////
 //
-//   /////////// Delete products ///////////////////
-//   Future<void> deleteProduct(String id) async {
+//   /////////// Delete Course ///////////////////
+//   Future<void> deleteCourse(String courseCode) async {
 //     await firestore
-//         .collection(ProductCollection.PRODUCTS_TABLE)
-//         .doc(id)
+//         .collection(CourseData.NAME)
+//         .where(courseCode, isEqualTo: CourseData.CODE)
+//         .get()
 //         .delete();
 //   }
 //
