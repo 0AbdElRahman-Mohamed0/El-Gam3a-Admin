@@ -124,6 +124,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   ),
                 ),
                 TextDataField(
+                  keyboardType: TextInputType.emailAddress,
                   labelName: 'Email',
                   hintText: 'Enter Email',
                   onSaved: (email) {

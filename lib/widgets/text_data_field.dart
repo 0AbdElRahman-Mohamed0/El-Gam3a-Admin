@@ -21,7 +21,7 @@ class TextDataField extends StatefulWidget {
     this.onSaved,
     this.validator,
     this.hintText,
-    this.keyboardType,
+    this.keyboardType = TextInputType.text,
     this.suffixIcon,
     this.inputFormatters,
     this.maxLength,
@@ -49,7 +49,7 @@ class _TextDataFieldState extends State<TextDataField> {
           controller: widget.controller,
           keyboardType: widget.keyboardType == TextInputType.number
               ? TextInputType.number
-              : TextInputType.text,
+              : widget.keyboardType,
           inputFormatters: widget.inputFormatters ??
               (widget.keyboardType == TextInputType.number
                   ? [FilteringTextInputFormatter.digitsOnly]

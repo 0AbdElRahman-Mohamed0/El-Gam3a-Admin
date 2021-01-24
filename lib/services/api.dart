@@ -32,10 +32,14 @@ class ApiProvider {
       email: user.email,
       password: pass,
     );
+
+    final DocumentReference data =
+        await firestore.collection(UserData.USER_DATA_TABLE).add(user.toMap());
+
     await firestore
         .collection(UserData.USER_DATA_TABLE)
-        .doc(FirebaseAuth.instance.currentUser.uid)
-        .set(user.toMap());
+        .doc(data.id)
+        .update({UserData.ID: data.id});
   }
 
   /////// Add Course //////////////////////////////////////////////
@@ -43,10 +47,11 @@ class ApiProvider {
   Future<void> addCourse(CourseModel course) async {
     final DocumentReference data =
         await firestore.collection(CourseData.COURSE_TABLE).add(course.toMap());
-//    await firestore
-//        .collection(CourseData.COURSE_TABLE)
-//        .doc(data.id)
-//        .update({ProductCollection.ID: data.id});
+
+    await firestore
+        .collection(CourseData.COURSE_TABLE)
+        .doc(data.id)
+        .update({CourseData.ID: data.id});
   }
 
   ///////////// DELETE USER //////////////////////////

@@ -1,4 +1,3 @@
-import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/services/vars.dart';
 
 class CourseModel {
@@ -16,6 +15,7 @@ class CourseModel {
     this.required,
   });
 
+  String courseID;
   String courseName;
   String courseHours;
   String courseCode;
@@ -33,6 +33,7 @@ class CourseModel {
     courseCode = m[CourseData.CODE];
     courseDoctor = m[CourseData.DOCTOR];
     courseHours = m[CourseData.CREDIT_HOURS];
+    courseID = m[CourseData.ID];
 //    m[CourseData.ASSISTANTS]?.forEach(
 //          (e) => courseAssistants.add(
 //        UserModel.fromMap(e),

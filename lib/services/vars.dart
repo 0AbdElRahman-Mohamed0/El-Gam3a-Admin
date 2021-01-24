@@ -18,6 +18,7 @@ abstract class UserData {
 
 abstract class CourseData {
   static const String COURSE_TABLE = "course_data";
+  static const String ID = "id";
   static const String NAME = "name";
   static const String CODE = "code";
   static const String DOCTOR = "doctor";
