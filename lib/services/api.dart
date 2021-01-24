@@ -94,8 +94,10 @@ class ApiProvider {
   }
 
   Future<void> deleteFireBaseStorageImage(String filePath) async {
+    print('start');
     await FirebaseStorage.instance.ref().child(filePath).delete().whenComplete(
         () => print('Successfully deleted $filePath storage item'));
+    print('done');
   }
 
   //////////////////////GET COURSE BY CODE/////////////////////////////

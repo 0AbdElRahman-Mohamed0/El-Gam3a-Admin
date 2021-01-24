@@ -18,7 +18,6 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
 
   bool _autoValidate = false;
   String _univID;
-  UserModel userModel;
 
   _submit() async {
     if (!_formKey.currentState.validate()) {
@@ -28,11 +27,12 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
     try {
       LoadingScreen.show(context);
 
-      userModel =
+      final userModel =
           await context.read<AuthProvider>().getDataOfStudentByUnivID(_univID);
+      if (userModel?.imagePath?.isNotEmpty ?? false) {
+        await context.read<AuthProvider>().deleteImage(userModel.imagePath);
+      }
       await context.read<AuthProvider>().deleteUser(userModel.univID);
-      await context.read<AuthProvider>().deleteImage(userModel.imagePath);
-
       Navigator.pop(context);
       Alert(
         context: context,
