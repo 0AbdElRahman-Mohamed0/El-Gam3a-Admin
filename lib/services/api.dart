@@ -126,6 +126,14 @@ class ApiProvider {
     });
   }
 
+//////////// Update USER //////////////////
+//  Future<void> updateUser(UserModel user) async {
+//    await firestore
+//        .collection(ProductCollection.PRODUCTS_TABLE)
+//        .doc(product.id)
+//        .update(product.toMap());
+//  }
+
 //   //////////////FORGET PASSWORD//////////////////////////////////////
 //
 //   Future<void> forgetPassword(String email) async {
