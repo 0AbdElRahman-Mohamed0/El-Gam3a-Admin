@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/services/api.dart';
+import 'package:elgam3a_admin/services/vars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,8 @@ class AuthProvider extends ChangeNotifier {
   String get uid => auth.currentUser?.uid;
 
   User get user => auth.currentUser;
+
+  UserModel userModel;
 
   isSignedIn() {
     return auth.currentUser != null;
@@ -36,8 +39,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<UserModel> getDataOfStudentByUnivID(String univID) async {
-    final user = await _api.getDataOfStudentByUnivID(univID);
-    return user;
+    userModel = await _api.getDataOfStudentByUnivID(univID);
+    return userModel;
   }
 
   Future<void> deleteUser(String univID) async {
@@ -59,4 +62,9 @@ class AuthProvider extends ChangeNotifier {
   //   await _api.deleteFireBaseStorageImage(imagePath);
   // }
 
+  /////////////UPDATE/////////////////////////////////////////////
+  Future<void> updateUser(UserModel user) async {
+    await _api.updateUser(user);
+    notifyListeners();
+  }
 }

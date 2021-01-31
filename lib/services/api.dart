@@ -134,12 +134,12 @@ class ApiProvider {
   }
 
 //////////// Update USER //////////////////
-//  Future<void> updateUser(UserModel user) async {
-//    await firestore
-//        .collection(ProductCollection.PRODUCTS_TABLE)
-//        .doc(product.id)
-//        .update(product.toMap());
-//  }
+  Future<void> updateUser(UserModel user) async {
+    await firestore
+        .collection(UserData.USER_DATA_TABLE)
+        .doc(user.userID)
+        .update(user.toMap());
+  }
 
 //   //////////////FORGET PASSWORD//////////////////////////////////////
 //

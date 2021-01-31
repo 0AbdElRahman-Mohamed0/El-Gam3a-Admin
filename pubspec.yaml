@@ -16,11 +16,11 @@ dependencies:
   rflutter_alert: ^1.1.0
   flutter_svg: ^0.19.2+1
   provider: ^4.3.2+3
-  firebase_core: ^0.5.2
-  firebase_auth: ^0.18.3
-  firebase_analytics: ^6.2.0
-  cloud_firestore: ^0.14.3
-  firebase_storage: ^5.0.1
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.0+1
+  firebase_analytics: ^7.0.1
+  cloud_firestore: ^0.16.0
+  firebase_storage: ^7.0.0
 
 
 dev_dependencies:
