@@ -1,5 +1,5 @@
-import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/providers/auth_provider.dart';
+import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
@@ -28,11 +28,11 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
       LoadingScreen.show(context);
 
       final userModel =
-          await context.read<AuthProvider>().getDataOfStudentByUnivID(_univID);
+          await context.read<UsersProvider>().getDataOfStudentByUnivID(_univID);
       if (userModel?.imagePath?.isNotEmpty ?? false) {
-        await context.read<AuthProvider>().deleteImage(userModel.imagePath);
+        await context.read<UsersProvider>().deleteImage(userModel.imagePath);
       }
-      await context.read<AuthProvider>().deleteUser(userModel.univID);
+      await context.read<UsersProvider>().deleteUser(userModel.univID);
       Navigator.pop(context);
       Alert(
         context: context,

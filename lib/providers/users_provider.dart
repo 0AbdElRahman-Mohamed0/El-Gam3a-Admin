@@ -19,17 +19,27 @@ class UsersProvider extends ChangeNotifier {
   String getRandomPassword() => String.fromCharCodes(Iterable.generate(
       6, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-  // Future<void> updateUserData(UserModel userUpdates) async {
-  //   await firestore
-  //       .collection(UserData.USER_DATA_TABLE)
-  //       .doc(uid)
-  //       .update(userUpdates.toMap());
-  //   userModel = userUpdates;
-  //   await user.updateEmail(userUpdates.email);
-  //   notifyListeners();
-  // }
-
   Future<void> addNewStudent(UserModel user, String pass) async {
     await _api.addNewStudent(user, pass);
+  }
+
+  Future<UserModel> getDataOfStudentByUnivID(String univID) async {
+    user = await _api.getDataOfStudentByUnivID(univID);
+    return user;
+  }
+
+  Future<void> deleteUser(String univID) async {
+    await _api.deleteUser(univID);
+  }
+
+  /////// Delete fireStore image ////////
+  Future<void> deleteImage(String imagePath) async {
+    await _api.deleteFireBaseStorageImage(imagePath);
+  }
+
+  /////////////UPDATE/////////////////////////////////////////////
+  Future<void> updateUser(UserModel user) async {
+    await _api.updateUser(user);
+    notifyListeners();
   }
 }

@@ -70,7 +70,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
         division: _division,
         department: _department,
       );
-      await context.read<AuthProvider>().updateUser(user);
+      await context.read<UsersProvider>().updateUser(user);
 
       Navigator.pop(context);
       Alert(

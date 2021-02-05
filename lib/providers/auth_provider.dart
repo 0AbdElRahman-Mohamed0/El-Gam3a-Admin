@@ -37,34 +37,4 @@ class AuthProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  Future<UserModel> getDataOfStudentByUnivID(String univID) async {
-    userModel = await _api.getDataOfStudentByUnivID(univID);
-    return userModel;
-  }
-
-  Future<void> deleteUser(String univID) async {
-    await _api.deleteUser(univID);
-  }
-
-  /////// Delete fireStore image ////////
-  Future<void> deleteImage(String imagePath) async {
-    await _api.deleteFireBaseStorageImage(imagePath);
-  }
-
-// Future<void> forgetPassword(String email) async {
-  //   await _api.forgetPassword(email);
-  //   notifyListeners();
-  // }
-
-  /////// Delete fireStore image ////////
-  // Future<void> deleteImage(String imagePath) async {
-  //   await _api.deleteFireBaseStorageImage(imagePath);
-  // }
-
-  /////////////UPDATE/////////////////////////////////////////////
-  Future<void> updateUser(UserModel user) async {
-    await _api.updateUser(user);
-    notifyListeners();
-  }
 }

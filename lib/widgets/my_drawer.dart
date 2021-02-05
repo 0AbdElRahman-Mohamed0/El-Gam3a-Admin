@@ -1,4 +1,4 @@
-import 'package:elgam3a_admin/providers/auth_provider.dart';
+import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/screens/add_course_screen.dart';
 import 'package:elgam3a_admin/screens/add_user_screen.dart';
 import 'package:elgam3a_admin/screens/delete_course_screen.dart';
@@ -127,7 +127,7 @@ class MyDrawer extends StatelessWidget {
                         Navigator.pop(context);
                         try {
                           final user = await context
-                              .read<AuthProvider>()
+                              .read<UsersProvider>()
                               .getDataOfStudentByUnivID(_univID);
                           Navigator.push(
                             context,
