@@ -11,10 +11,13 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.1
+  font_awesome_flutter: ^8.11.0
   loading_indicator: ^1.2.0
   flrx_validator: ^0.4.0+2
   rflutter_alert: ^1.1.0
   flutter_svg: ^0.19.2+1
+  websafe_svg: ^1.1.4+2 # Instead of flutter svg because it not works in web
+
   provider: ^4.3.2+3
   firebase_core: ^0.7.0
   firebase_auth: ^0.20.0+1
