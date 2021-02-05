@@ -56,10 +56,10 @@ class _AddUserScreenState extends State<AddUserScreen> {
     try {
       LoadingScreen.show(context);
       final user = UserModel(
-        name: _name,
+        name: _name.trim(),
         type: _type,
         phoneNumber: _phoneNumber,
-        email: _email,
+        email: _email.trim(),
         division: _division,
         department: _department,
         univID: _univID,
