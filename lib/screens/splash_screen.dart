@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _isSignIn() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 9));
 
     final signIn = context.read<AuthProvider>().isSignedIn();
 
@@ -41,9 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        color: Theme.of(context).accentColor,
+        // height: MediaQuery.of(context).size.height,
+        // width: MediaQuery.of(context).size.width,
+        // color: Theme.of(context).buttonColor,
         child: Center(
           child: Hero(
             tag: 'logo',
@@ -58,20 +58,17 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 Text(
                   'El-Gam3a',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontFamily: 'Calibri',
-                    fontSize: 64.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontSize: 64),
                 ),
                 Text(
                   'Admin',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontFamily: 'Calibri',
-                    fontSize: 20.0,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      .copyWith(fontSize: 20),
                 ),
               ],
             ),
