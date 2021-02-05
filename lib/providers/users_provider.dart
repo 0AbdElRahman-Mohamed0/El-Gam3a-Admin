@@ -25,6 +25,7 @@ class UsersProvider extends ChangeNotifier {
 
   Future<UserModel> getDataOfStudentByUnivID(String univID) async {
     user = await _api.getDataOfStudentByUnivID(univID);
+    notifyListeners();
     return user;
   }
 
@@ -40,6 +41,5 @@ class UsersProvider extends ChangeNotifier {
   /////////////UPDATE/////////////////////////////////////////////
   Future<void> updateUser(UserModel user) async {
     await _api.updateUser(user);
-    notifyListeners();
   }
 }

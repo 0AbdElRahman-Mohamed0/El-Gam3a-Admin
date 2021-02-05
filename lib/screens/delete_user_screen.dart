@@ -27,12 +27,12 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
     try {
       LoadingScreen.show(context);
 
-      final userModel =
+      final user =
           await context.read<UsersProvider>().getDataOfStudentByUnivID(_univID);
-      if (userModel?.imagePath?.isNotEmpty ?? false) {
-        await context.read<UsersProvider>().deleteImage(userModel.imagePath);
+      if (user?.imagePath?.isNotEmpty ?? false) {
+        await context.read<UsersProvider>().deleteImage(user.imagePath);
       }
-      await context.read<UsersProvider>().deleteUser(userModel.univID);
+      await context.read<UsersProvider>().deleteUser(user.univID);
       Navigator.pop(context);
       Alert(
         context: context,

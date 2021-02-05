@@ -18,7 +18,7 @@ class AuthProvider extends ChangeNotifier {
 
   User get user => auth.currentUser;
 
-  UserModel userModel;
+  UserModel admin;
 
   isSignedIn() {
     return auth.currentUser != null;

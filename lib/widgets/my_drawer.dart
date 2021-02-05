@@ -7,6 +7,7 @@ import 'package:elgam3a_admin/screens/update_user_screen.dart';
 import 'package:elgam3a_admin/widgets/drawer_option.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
+import 'package:elgam3a_admin/widgets/update_user_pop_up.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
@@ -96,79 +97,9 @@ class MyDrawer extends StatelessWidget {
               update: true,
               optionName: 'UPDATE USER',
               onPressed: () {
-                Alert(
-                  context: context,
-                  title: 'User ID',
-                  style: AlertStyle(
-                    titleStyle: Theme.of(context).textTheme.headline6,
-                  ),
-                  content: TextDataField(
-                    maxLength: 11,
-                    keyboardType: TextInputType.number,
-                    labelName: '',
-                    hintText: 'Enter User ID',
-                    onSaved: (univID) {
-                      _univID = univID;
-                    },
-                    validator: Validator(
-                      rules: [
-                        RequiredRule(
-                            validationMessage: 'Student ID is required.'),
-                        MinLengthRule(11,
-                            validationMessage:
-                                'Student ID should be 11 number.'),
-                      ],
-                    ),
-                  ),
-                  buttons: [
-                    DialogButton(
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        try {
-                          final user = await context
-                              .read<UsersProvider>()
-                              .getDataOfStudentByUnivID(_univID);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UpdateUserScreen(),
-                            ),
-                          );
-                        } on FirebaseException catch (e) {
-                          Navigator.of(context).pop();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => ErrorPopUp(
-                                message:
-                                    'Something went wrong, please try again \n ${e.message}'),
-                          );
-                        } catch (e, s) {
-                          Navigator.pop(context);
-                          print(e);
-                          print(s);
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => ErrorPopUp(
-                                message:
-                                    'Something went wrong, please try again \n ${e.toString()}'),
-                          );
-                        }
-                      },
-                      child: Text(
-                        'Update',
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                    ),
-                  ],
-                ).show();
-//                  Navigator.pop(context);
-//                  Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                      builder: (context) => UpdateUserScreen(),
-//                    ),
-//                  );
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => UpdateUserPopUp());
               },
             ),
             DrawerOption(
