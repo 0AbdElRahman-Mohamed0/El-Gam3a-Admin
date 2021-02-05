@@ -7,6 +7,7 @@ import 'package:elgam3a_admin/screens/update_user_screen.dart';
 import 'package:elgam3a_admin/widgets/drawer_option.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
+import 'package:elgam3a_admin/widgets/update_course_pop_up.dart';
 import 'package:elgam3a_admin/widgets/update_user_pop_up.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
@@ -106,12 +107,9 @@ class MyDrawer extends StatelessWidget {
               update: true,
               optionName: 'UPDATE COURSE',
               onPressed: () {
-                //   return Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => BrandsScreen(),
-                //   ),
-                // );
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => UpdateCoursePopUp());
               },
             ),
             DrawerOption(

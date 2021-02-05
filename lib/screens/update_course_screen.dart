@@ -2,18 +2,21 @@ import 'package:elgam3a_admin/models/course_model.dart';
 import 'package:elgam3a_admin/providers/courses_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
+import 'package:elgam3a_admin/widgets/error_pop_up.dart';
+import 'package:elgam3a_admin/widgets/successfully_update_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class AddCourseScreen extends StatefulWidget {
+class UpdateCourseScreen extends StatefulWidget {
   @override
-  _AddCourseScreenState createState() => _AddCourseScreenState();
+  _UpdateCourseScreenState createState() => _UpdateCourseScreenState();
 }
 
-class _AddCourseScreenState extends State<AddCourseScreen> {
+class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
@@ -22,8 +25,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
   String _creditHours;
   String _department;
   String _required;
-
-  bool departmentSelected = true;
 
   List<String> departments = [
     'Mathematics',
@@ -46,54 +47,54 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
 
   _submit() async {
     if (!_formKey.currentState.validate()) {
-      if (_department == null)
-        setState(() {
-          departmentSelected = false;
-          _autoValidate = true;
-        });
-      if (_required == null)
-        setState(() {
-          requiredSelected = false;
-          _autoValidate = true;
-        });
+      if (!_autoValidate) setState(() => _autoValidate = true);
       return;
     }
     _formKey.currentState.save();
     try {
       LoadingScreen.show(context);
-      final course = CourseModel(
+      CourseModel course = context.read<CoursesProvider>().course;
+      course = course.copyWith(
         courseName: _name,
         courseCode: _code,
         courseHours: _creditHours,
         courseDepartment: _department,
         required: _required,
       );
-
-      await context.read<CoursesProvider>().addCourse(course);
+      await context.read<CoursesProvider>().updateCourse(course);
       Navigator.pop(context);
-      Alert(
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) => SuccessfullyUpdatePopUp());
+      Navigator.pop(context);
+    } on FirebaseException catch (e) {
+      Navigator.of(context).pop();
+      showDialog(
         context: context,
-        title: 'Course added',
-        desc: 'Name : $_name\nCode : $_code',
-        style: AlertStyle(
-          titleStyle: Theme.of(context).textTheme.headline6,
-          descStyle: Theme.of(context).textTheme.headline1,
-        ),
-      ).show();
-      _formKey.currentState.reset();
+        builder: (BuildContext context) => ErrorPopUp(
+            message: 'Something went wrong, please try again \n ${e.message}'),
+      );
     } catch (e, s) {
       Navigator.pop(context);
       print(e);
       print(s);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => ErrorPopUp(
+            message:
+                'Something went wrong, please try again \n ${e.toString()}'),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final course = context.watch<CoursesProvider>().course;
+    print('hsada ${course.courseID}');
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Add Course',
+          'Update Course',
           style: Theme.of(context).textTheme.headline3,
         ),
       ),
@@ -111,6 +112,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 TextDataField(
                   labelName: 'Name',
                   hintText: 'Enter Course Name',
+                  initialValue: course.courseName,
                   onSaved: (name) {
                     _name = name;
                   },
@@ -130,6 +132,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 TextDataField(
                   labelName: 'Code',
                   hintText: 'Enter Course Code',
+                  initialValue: course.courseCode,
                   onSaved: (code) {
                     _code = code;
                   },
@@ -153,6 +156,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 TextDataField(
                   labelName: 'Credit Hours',
                   hintText: 'Enter Course Credit Hours',
+                  initialValue: course.courseHours,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp('[1-9]')),
@@ -177,38 +181,18 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                   needSpace: false,
                   labelText: 'Department',
                   hintText: 'Select department',
+                  value: course.courseDepartment ?? _department,
                   onChanged: (value) {
                     _department = value;
-                    departmentSelected = true;
                     setState(() {});
                   },
-//                  validator: Validator(
-//                    rules: [
-//                      RequiredRule(
-//                        validationMessage: 'Department is required.',
-//                      ),
-//                    ],
-//                  ),
                   list: departments,
                   onSaved: (value) {
                     _department = value;
-                    departmentSelected = true;
-                    setState(() {});
                   },
+                  validator: (String v) =>
+                      v == null ? 'You must choose department.' : null,
                 ),
-                departmentSelected
-                    ? SizedBox()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'You must choose department.',
-                            style: TextStyle(
-                              color: Theme.of(context).errorColor,
-                            ),
-                          ),
-                        ],
-                      ),
                 SizedBox(
                   height: 21,
                 ),
@@ -216,38 +200,16 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                   needSpace: false,
                   labelText: 'Required',
                   hintText: 'Required?',
+                  value: course.required ?? _required,
                   onChanged: (value) {
                     _required = value;
-                    requiredSelected = true;
                     setState(() {});
                   },
-//                  validator: Validator(
-//                    rules: [
-//                      RequiredRule(
-//                        validationMessage: 'This field is required.',
-//                      ),
-//                    ],
-//                  ),
                   list: required,
                   onSaved: (value) {
                     _required = value;
-                    requiredSelected = true;
-                    setState(() {});
                   },
                 ),
-                requiredSelected
-                    ? SizedBox()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'You must choose required or not.',
-                            style: TextStyle(
-                              color: Theme.of(context).errorColor,
-                            ),
-                          ),
-                        ],
-                      ),
                 SizedBox(
                   height: 21,
                 ),
@@ -262,7 +224,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        'Add Course',
+                        'Update Course',
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),

@@ -6,6 +6,7 @@ export 'package:provider/provider.dart';
 class CoursesProvider extends ChangeNotifier {
   final ApiProvider _api = ApiProvider.instance;
   List<CourseModel> courses = [];
+  CourseModel course;
 //  CourseModel course;
 
   Future<void> addCourse(CourseModel course) async {
@@ -13,8 +14,13 @@ class CoursesProvider extends ChangeNotifier {
   }
 
   Future<CourseModel> getCourseByCode(String courseCode) async {
-    final course = await _api.getCourseByCode(courseCode);
+    course = await _api.getCourseByCode(courseCode);
+    notifyListeners();
     return course;
+  }
+
+  Future<void> updateCourse(CourseModel course) async {
+    await _api.updateCourse(course);
   }
 
   Future<void> deleteCourse(String courseCode) async {

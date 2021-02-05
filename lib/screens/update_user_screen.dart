@@ -28,8 +28,6 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   String _registeredHours;
   String _cgpa;
 
-  bool departmentSelected;
-
   List<String> departments = [
     'Mathematics',
     'Statistics',
@@ -42,8 +40,6 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
     'Geology',
   ];
 
-  bool divisionSelected = true;
-
   List<String> divisions = [
     'Natural Science',
     'Biology',
@@ -51,16 +47,14 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   ];
 
   _submit() async {
-    UserModel user = context.read<UsersProvider>().user;
-
     if (!_formKey.currentState.validate()) {
-      if (_division == null) divisionSelected = false;
-      setState(() => _autoValidate = true);
+      if (!_autoValidate) setState(() => _autoValidate = true);
       return;
     }
     _formKey.currentState.save();
     try {
       LoadingScreen.show(context);
+      UserModel user = context.read<UsersProvider>().user;
       user = user.copyWith(
         name: _name,
         phoneNumber: _phoneNumber,

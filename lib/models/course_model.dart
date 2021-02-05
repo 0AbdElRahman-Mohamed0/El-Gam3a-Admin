@@ -2,6 +2,7 @@ import 'package:elgam3a_admin/services/vars.dart';
 
 class CourseModel {
   CourseModel({
+    this.courseID,
     this.courseName,
     this.courseCode,
     this.courseDoctor,
@@ -65,8 +66,9 @@ class CourseModel {
   }
 
   CourseModel copyWith({
+    String courseID,
     String courseName,
-    int courseHours,
+    String courseHours,
     String courseCode,
     String courseDoctor,
     List<String> courseAssistants,
@@ -75,9 +77,10 @@ class CourseModel {
     String courseTime,
     String courseDepartment,
     String courseHall,
-    bool required,
+    String required,
   }) {
     return CourseModel(
+      courseID: courseID ?? this.courseID,
       courseName: courseName ?? this.courseName,
       courseCode: courseCode ?? this.courseCode,
       courseDoctor: courseDoctor ?? this.courseDoctor,

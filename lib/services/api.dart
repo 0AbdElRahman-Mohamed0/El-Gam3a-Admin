@@ -141,6 +141,13 @@ class ApiProvider {
         .update(user.toMap());
   }
 
+  Future<void> updateCourse(CourseModel course) async {
+    await firestore
+        .collection(CourseData.COURSE_TABLE)
+        .doc(course.courseID)
+        .update(course.toMap());
+  }
+
 //   //////////////FORGET PASSWORD//////////////////////////////////////
 //
 //   Future<void> forgetPassword(String email) async {
