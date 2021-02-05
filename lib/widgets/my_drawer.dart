@@ -1,7 +1,6 @@
 import 'package:elgam3a_admin/providers/auth_provider.dart';
 import 'package:elgam3a_admin/screens/add_course_screen.dart';
-import 'package:elgam3a_admin/screens/add_doctor_screen.dart';
-import 'package:elgam3a_admin/screens/add_student_screen.dart';
+import 'package:elgam3a_admin/screens/add_user_screen.dart';
 import 'package:elgam3a_admin/screens/delete_course_screen.dart';
 import 'package:elgam3a_admin/screens/delete_user_screen.dart';
 import 'package:elgam3a_admin/screens/update_user_screen.dart';
@@ -72,47 +71,13 @@ class MyDrawer extends StatelessWidget {
             DrawerOption(
               optionName: 'ADD USER',
               onPressed: () {
-                Alert(
-                  context: context,
-                  title: 'Choose user type.',
-                  style: AlertStyle(
-                    titleStyle: Theme.of(context).textTheme.headline6,
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddUserScreen(),
                   ),
-                  buttons: [
-                    DialogButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddDoctorScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Doctor',
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                    ),
-                    DialogButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddStudentScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Student',
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                    ),
-                  ],
-                ).show();
+                );
               },
             ),
             DrawerOption(

@@ -52,12 +52,12 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       UserData.EMAIL: email,
-      UserData.DIVISION: division,
-      UserData.GPA: gpa ?? '0',
+      if (type == 'Student') UserData.DIVISION: division,
+      if (type == 'Student') UserData.GPA: gpa ?? '0',
       UserData.COMPLETED_HOURS: completedHours ?? '0',
       UserData.REGISTERED_HOURS: registeredHours ?? '0',
-      UserData.MAJOR: department ?? '',
-      UserData.MINOR: minor ?? '',
+      UserData.MAJOR: department,
+      if (type == 'Student') UserData.MINOR: minor,
       UserData.NAME: name,
       UserData.TYPE: type,
       UserData.PHONE_NUMBER: phoneNumber,
