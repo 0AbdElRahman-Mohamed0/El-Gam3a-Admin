@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CourseAddedPopUp extends StatelessWidget {
+class DataAddedPopUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -9,7 +9,7 @@ class CourseAddedPopUp extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            'Course added Successfully',
+            'Data added Successfully',
             style: Theme.of(context).textTheme.headline1,
           ),
           SizedBox(height: 24.0),

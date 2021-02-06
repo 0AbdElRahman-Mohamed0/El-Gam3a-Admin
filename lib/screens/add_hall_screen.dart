@@ -1,10 +1,8 @@
-import 'package:elgam3a_admin/models/course_model.dart';
 import 'package:elgam3a_admin/models/faculty_model.dart';
 import 'package:elgam3a_admin/models/hall_model.dart';
-import 'package:elgam3a_admin/providers/courses_provider.dart';
 import 'package:elgam3a_admin/providers/faculities_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
-import 'package:elgam3a_admin/widgets/course_added_pop_up.dart';
+import 'package:elgam3a_admin/widgets/data_added_pop_up.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
@@ -74,6 +72,10 @@ class _AddHallScreenState extends State<AddHallScreen> {
         id: _hallID,
       );
       await context.read<FacultiesProvider>().updateHalls(hall, _faculty.id);
+      Navigator.pop(context);
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) => DataAddedPopUp());
       Navigator.pop(context);
     } on FirebaseException catch (e) {
       Navigator.pop(context);
