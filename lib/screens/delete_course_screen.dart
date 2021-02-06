@@ -38,6 +38,7 @@ class _DeleteCourseScreenState extends State<DeleteCourseScreen> {
       _formKey.currentState.reset();
       if (_autoValidate) setState(() => _autoValidate = false);
     } on FirebaseException catch (e) {
+      // TODO: handle all firebase exceptions using e.code
       Navigator.of(context).pop();
       showDialog(
         context: context,
