@@ -1,9 +1,9 @@
 import 'package:elgam3a_admin/models/course_model.dart';
-import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/providers/auth_provider.dart';
 import 'package:elgam3a_admin/providers/courses_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
+import 'package:elgam3a_admin/widgets/successfully_deleted_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flrx_validator/flrx_validator.dart';
@@ -17,36 +17,26 @@ class DeleteCourseScreen extends StatefulWidget {
 
 class _DeleteCourseScreenState extends State<DeleteCourseScreen> {
   final _formKey = GlobalKey<FormState>();
-
   bool _autoValidate = false;
+
   String _courseCode;
-  CourseModel courseModel;
 
   _submit() async {
     if (!_formKey.currentState.validate()) {
+      if (!_autoValidate) setState(() => _autoValidate = true);
       return;
     }
     _formKey.currentState.save();
     try {
       LoadingScreen.show(context);
-
-      courseModel =
-          await context.read<CoursesProvider>().getCourseByCode(_courseCode);
-      await context
-          .read<CoursesProvider>()
-          .deleteCourse(courseModel.courseCode);
-
+      await context.read<CoursesProvider>().deleteCourse(_courseCode);
       Navigator.pop(context);
-      Alert(
+      showDialog(
         context: context,
-        title: 'Course Deleted',
-//        desc: 'Name : $_name\nCode : $_code',
-        style: AlertStyle(
-          titleStyle: Theme.of(context).textTheme.headline6,
-          descStyle: Theme.of(context).textTheme.headline1,
-        ),
-      ).show();
+        builder: (BuildContext context) => SuccessfullyDeletedPopUp(),
+      );
       _formKey.currentState.reset();
+      if (_autoValidate) setState(() => _autoValidate = false);
     } on FirebaseException catch (e) {
       Navigator.of(context).pop();
       showDialog(

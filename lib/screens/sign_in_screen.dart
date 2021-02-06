@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:elgam3a_admin/providers/auth_provider.dart';
 import 'package:elgam3a_admin/screens/dashboard_screen.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
+import 'package:elgam3a_admin/widgets/error_pop_up.dart';
+import 'package:elgam3a_admin/widgets/wrong_email_pop_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -56,70 +57,27 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             (route) => false);
       } else {
-        Alert(
+        showDialog(
           context: context,
-          title: 'Not found',
-          desc: 'No user found for that email.',
-          type: AlertType.info,
-          style: AlertStyle(
-            titleStyle: Theme.of(context).textTheme.headline6,
-            descStyle: Theme.of(context).textTheme.headline2,
-          ),
-          buttons: [
-            DialogButton(
-              color: Theme.of(context).buttonColor,
-              child: Text(
-                'OK',
-                style: Theme.of(context).textTheme.headline3,
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        ).show();
+          builder: (BuildContext context) => WrongEmailPopUp(),
+        );
       }
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      Alert(
+    } on FirebaseException catch (e) {
+      Navigator.of(context).pop();
+      showDialog(
         context: context,
-        title: 'Not found',
-        desc: 'No user found, Wrong email or password.',
-        type: AlertType.info,
-        style: AlertStyle(
-          titleStyle: Theme.of(context).textTheme.headline6,
-          descStyle: Theme.of(context).textTheme.headline2,
-        ),
-        buttons: [
-          DialogButton(
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              'OK',
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ).show();
+        builder: (BuildContext context) => WrongEmailPopUp(),
+      );
     } catch (e, s) {
       Navigator.pop(context);
+      print(e);
       print(s);
-      Alert(
+      showDialog(
         context: context,
-        title: '',
-        desc: 'Something went wrong please retry later.',
-        style: AlertStyle(
-          descStyle: Theme.of(context).textTheme.headline2,
-        ),
-        buttons: [
-          DialogButton(
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              'OK',
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ).show();
+        builder: (BuildContext context) => ErrorPopUp(
+            message:
+                'Something went wrong, please try again \n ${e.toString()}'),
+      );
     }
   }
 
