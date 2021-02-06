@@ -29,7 +29,6 @@ class _UpdateCoursePopUpState extends State<UpdateCoursePopUp> {
       LoadingScreen.show(context);
       await context.read<CoursesProvider>().getCourseByCode(_courseCode);
       Navigator.pop(context);
-      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(

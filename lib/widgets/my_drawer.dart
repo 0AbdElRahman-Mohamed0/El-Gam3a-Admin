@@ -64,36 +64,28 @@ class MyDrawer extends StatelessWidget {
             ),
             DrawerOption(
               optionName: 'ADD USER',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddUserScreen(),
-                  ),
-                );
-              },
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddUserScreen(),
+                ),
+              ),
             ),
             DrawerOption(
               optionName: 'ADD COURSE',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddCourseScreen(),
-                  ),
-                );
-              },
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddCourseScreen(),
+                ),
+              ),
             ),
             DrawerOption(
               update: true,
               optionName: 'UPDATE USER',
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) => UpdateUserPopUp());
-              },
+              onPressed: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) => UpdateUserPopUp()),
             ),
             DrawerOption(
               update: true,
@@ -107,28 +99,22 @@ class MyDrawer extends StatelessWidget {
             DrawerOption(
               remove: true,
               optionName: 'REMOVE USER',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DeleteUserScreen(),
-                  ),
-                );
-              },
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DeleteUserScreen(),
+                ),
+              ),
             ),
             DrawerOption(
               remove: true,
               optionName: 'REMOVE COURSE',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DeleteCourseScreen(),
-                  ),
-                );
-              },
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DeleteCourseScreen(),
+                ),
+              ),
             ),
           ],
         ),
