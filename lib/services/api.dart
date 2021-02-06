@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elgam3a_admin/models/course_model.dart';
+import 'package:elgam3a_admin/models/faculty_model.dart';
+import 'package:elgam3a_admin/models/hall_model.dart';
 import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/services/vars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,12 +75,6 @@ class ApiProvider {
     });
   }
 
-//  Future<void> signInUsingEmailAndPassword(
-//      String email, String password) async {
-//    await auth
-//      ..delete();
-//  }
-
   // Get Data
   Future<UserModel> getDataOfStudentByUnivID(String univID) async {
     final _response = await firestore
@@ -146,6 +144,31 @@ class ApiProvider {
         .collection(CourseData.COURSE_TABLE)
         .doc(course.courseID)
         .update(course.toMap());
+  }
+
+  Future<List<FacultyModel>> getFaculties() async {
+    final _response =
+        await firestore.collection(FacultyData.FACULTY_TABLE).get();
+    if (_response.docs.isNotEmpty) {
+      List<FacultyModel> _faculties = [];
+      _response.docs.forEach((element) {
+        _faculties.add(FacultyModel.fromMap(element.data()));
+      });
+      return _faculties;
+    } else {
+      print('api Error@getFaculties');
+      // Err
+      throw _response.docs;
+    }
+  }
+
+  Future<void> addHall(List<HallModel> halls, String facultyID) async {
+    await firestore
+        .collection(FacultyData.FACULTY_TABLE)
+        .doc(facultyID)
+        .update({
+      FacultyData.HALLS: halls.map((hall) => hall.toMap()).toList(),
+    });
   }
 
 //   //////////////FORGET PASSWORD//////////////////////////////////////

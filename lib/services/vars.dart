@@ -31,3 +31,16 @@ abstract class CourseData {
   static const String DEPARTMENT = "department";
   static const String REQUIRED = 'required';
 }
+
+abstract class HallData {
+  static const String ID = "id";
+  static const String TIMES = "choosed_times";
+  static const String CAPACITY = "capacity";
+}
+
+abstract class FacultyData {
+  static const String FACULTY_TABLE = "faculties_data";
+  static const String ID = "id";
+  static const String NAME = "name";
+  static const String HALLS = "halls";
+}

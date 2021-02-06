@@ -52,9 +52,12 @@ class _DropDownState<T> extends State<DropDown<T>> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.labelText,
-          style: Theme.of(context).textTheme.headline2.copyWith(fontSize: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            widget.labelText,
+            style: Theme.of(context).textTheme.headline2.copyWith(fontSize: 16),
+          ),
         ),
         SizedBox(height: 6),
         DropdownButtonFormField<T>(

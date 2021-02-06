@@ -39,9 +39,12 @@ class _TextDataFieldState extends State<TextDataField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '${widget.labelName}',
-          style: Theme.of(context).textTheme.headline2.copyWith(fontSize: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            '${widget.labelName}',
+            style: Theme.of(context).textTheme.headline2.copyWith(fontSize: 16),
+          ),
         ),
         SizedBox(
           height: 6,

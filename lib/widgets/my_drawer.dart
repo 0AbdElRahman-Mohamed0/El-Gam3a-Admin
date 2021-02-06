@@ -1,4 +1,6 @@
 import 'package:elgam3a_admin/screens/add_course_screen.dart';
+import 'package:elgam3a_admin/screens/unused_screens/add_faculty_screen.dart';
+import 'package:elgam3a_admin/screens/add_hall_screen.dart';
 import 'package:elgam3a_admin/screens/add_user_screen.dart';
 import 'package:elgam3a_admin/screens/delete_course_screen.dart';
 import 'package:elgam3a_admin/screens/delete_user_screen.dart';
@@ -81,6 +83,15 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             DrawerOption(
+              optionName: 'ADD HALL',
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddHallScreen(),
+                ),
+              ),
+            ),
+            DrawerOption(
               update: true,
               optionName: 'UPDATE USER',
               onPressed: () => showDialog(
@@ -98,7 +109,7 @@ class MyDrawer extends StatelessWidget {
             ),
             DrawerOption(
               remove: true,
-              optionName: 'REMOVE USER',
+              optionName: 'DELETE USER',
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -108,13 +119,23 @@ class MyDrawer extends StatelessWidget {
             ),
             DrawerOption(
               remove: true,
-              optionName: 'REMOVE COURSE',
+              optionName: 'DELETE COURSE',
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => DeleteCourseScreen(),
                 ),
               ),
+            ),
+            DrawerOption(
+              remove: true,
+              optionName: 'DELETE HALL',
+              // onPressed: () => Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => DeleteCourseScreen(),
+              //   ),
+              // ),
             ),
           ],
         ),
