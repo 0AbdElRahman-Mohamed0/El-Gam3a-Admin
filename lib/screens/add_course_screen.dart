@@ -1,8 +1,11 @@
 import 'package:elgam3a_admin/models/course_model.dart';
 import 'package:elgam3a_admin/providers/courses_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
+import 'package:elgam3a_admin/widgets/course_added_pop_up.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
+import 'package:elgam3a_admin/widgets/error_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,11 +22,9 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
 
   String _name;
   String _code;
-  String _creditHours;
+  int _creditHours;
   String _department;
-  String _required;
-
-  bool departmentSelected = true;
+  bool _isRequired = false;
 
   List<String> departments = [
     'Mathematics',
@@ -37,25 +38,9 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
     'Geology',
   ];
 
-  bool requiredSelected = true;
-
-  List<String> required = [
-    'TRUE',
-    'FALSE',
-  ];
-
   _submit() async {
     if (!_formKey.currentState.validate()) {
-      if (_department == null)
-        setState(() {
-          departmentSelected = false;
-          _autoValidate = true;
-        });
-      if (_required == null)
-        setState(() {
-          requiredSelected = false;
-          _autoValidate = true;
-        });
+      if (!_autoValidate) setState(() => _autoValidate = true);
       return;
     }
     _formKey.currentState.save();
@@ -66,25 +51,32 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
         courseCode: _code,
         courseHours: _creditHours,
         courseDepartment: _department,
-        required: _required,
+        isRequired: _isRequired,
       );
 
       await context.read<CoursesProvider>().addCourse(course);
       Navigator.pop(context);
-      Alert(
-        context: context,
-        title: 'Course added',
-        desc: 'Name : $_name\nCode : $_code',
-        style: AlertStyle(
-          titleStyle: Theme.of(context).textTheme.headline6,
-          descStyle: Theme.of(context).textTheme.headline1,
-        ),
-      ).show();
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => CourseAddedPopUp());
       _formKey.currentState.reset();
+    } on FirebaseException catch (e) {
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => ErrorPopUp(
+            message: 'Something went wrong, please try again \n ${e.message}'),
+      );
     } catch (e, s) {
       Navigator.pop(context);
       print(e);
       print(s);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => ErrorPopUp(
+            message:
+                'Something went wrong, please try again \n ${e.toString()}'),
+      );
     }
   }
 
@@ -128,15 +120,13 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                   ),
                 ),
                 TextDataField(
+                  maxLength: 9,
                   labelName: 'Code',
                   hintText: 'Enter Course Code',
                   onSaved: (code) {
                     _code = code;
                   },
                   keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                  ],
                   validator: Validator(
                     rules: [
                       RequiredRule(
@@ -144,8 +134,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                       ),
                       MinLengthRule(
                         9,
-                        validationMessage:
-                            'Code should have at least 9 characters.',
+                        validationMessage: 'Code should have 9 digits.',
                       ),
                     ],
                   ),
@@ -158,7 +147,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     FilteringTextInputFormatter.allow(RegExp('[1-9]')),
                   ],
                   onSaved: (hours) {
-                    _creditHours = hours;
+                    _creditHours = num.parse(hours);
                   },
                   validator: Validator(
                     rules: [
@@ -177,77 +166,33 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                   needSpace: false,
                   labelText: 'Department',
                   hintText: 'Select department',
-                  onChanged: (value) {
-                    _department = value;
-                    departmentSelected = true;
-                    setState(() {});
-                  },
-//                  validator: Validator(
-//                    rules: [
-//                      RequiredRule(
-//                        validationMessage: 'Department is required.',
-//                      ),
-//                    ],
-//                  ),
+                  onChanged: (value) {},
                   list: departments,
                   onSaved: (value) {
                     _department = value;
-                    departmentSelected = true;
-                    setState(() {});
                   },
+                  validator: (String v) =>
+                      v == null ? 'You must choose department.' : null,
                 ),
-                departmentSelected
-                    ? SizedBox()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'You must choose department.',
-                            style: TextStyle(
-                              color: Theme.of(context).errorColor,
-                            ),
-                          ),
-                        ],
-                      ),
                 SizedBox(
                   height: 21,
                 ),
-                DropDown(
-                  needSpace: false,
-                  labelText: 'Required',
-                  hintText: 'Required?',
-                  onChanged: (value) {
-                    _required = value;
-                    requiredSelected = true;
-                    setState(() {});
-                  },
-//                  validator: Validator(
-//                    rules: [
-//                      RequiredRule(
-//                        validationMessage: 'This field is required.',
-//                      ),
-//                    ],
-//                  ),
-                  list: required,
-                  onSaved: (value) {
-                    _required = value;
-                    requiredSelected = true;
-                    setState(() {});
-                  },
+                Row(
+                  children: [
+                    Checkbox(
+                      activeColor: Theme.of(context).primaryColor,
+                      value: _isRequired,
+                      onChanged: (value) {
+                        _isRequired = value;
+                        setState(() {});
+                      },
+                    ),
+                    Text(
+                      'Is required ?',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                  ],
                 ),
-                requiredSelected
-                    ? SizedBox()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'You must choose required or not.',
-                            style: TextStyle(
-                              color: Theme.of(context).errorColor,
-                            ),
-                          ),
-                        ],
-                      ),
                 SizedBox(
                   height: 21,
                 ),

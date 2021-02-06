@@ -85,7 +85,7 @@ class UserModel {
     String userID,
   }) {
     return UserModel(
-      email: email ?? this.email,
+      email: this.email,
       name: name ?? this.name,
       division: division ?? this.division,
       gpa: gpa ?? this.gpa,
@@ -95,10 +95,10 @@ class UserModel {
       minor: minor ?? this.minor,
       type: type ?? this.type,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      univID: univID ?? this.univID,
+      univID: this.univID,
       imageUrl: imageUrl ?? this.imageUrl,
       imagePath: imagePath ?? this.imagePath,
-      userID: userID ?? this.userID,
+      userID: this.userID,
     );
   }
 }

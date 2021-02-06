@@ -13,12 +13,12 @@ class CourseModel {
     this.courseHall,
     this.courseHours,
     this.courseDepartment,
-    this.required,
+    this.isRequired,
   });
 
   String courseID;
   String courseName;
-  String courseHours;
+  int courseHours;
   String courseCode;
   String courseDoctor;
   List<String> courseAssistants;
@@ -26,8 +26,8 @@ class CourseModel {
   String courseDay;
   String courseTime;
   String courseDepartment;
-  String courseHall;
-  String required;
+  int courseHall;
+  bool isRequired;
 
   CourseModel.fromMap(Map<String, dynamic> m) {
     courseName = m[CourseData.NAME];
@@ -46,29 +46,29 @@ class CourseModel {
     courseTime = m[CourseData.TIME];
     courseHall = m[CourseData.HALL];
     courseDepartment = m[CourseData.DEPARTMENT];
-    required = m[CourseData.REQUIRED];
+    isRequired = m[CourseData.REQUIRED];
   }
 
   Map<String, dynamic> toMap() {
     return {
       CourseData.NAME: courseName,
       CourseData.CODE: courseCode,
-      CourseData.DOCTOR: courseDoctor ?? '',
+      CourseData.DOCTOR: courseDoctor,
       CourseData.CREDIT_HOURS: courseHours,
       CourseData.ASSISTANTS: courseAssistants ?? [],
-      CourseData.LOCATION: courseLocation ?? '',
-      CourseData.DAY: courseDay ?? '',
-      CourseData.TIME: courseTime ?? '',
-      CourseData.HALL: courseHall ?? '',
+      CourseData.LOCATION: courseLocation,
+      CourseData.DAY: courseDay,
+      CourseData.TIME: courseTime,
+      CourseData.HALL: courseHall,
       CourseData.DEPARTMENT: courseDepartment,
-      CourseData.REQUIRED: required,
+      CourseData.REQUIRED: isRequired,
     };
   }
 
   CourseModel copyWith({
     String courseID,
     String courseName,
-    String courseHours,
+    int courseHours,
     String courseCode,
     String courseDoctor,
     List<String> courseAssistants,
@@ -76,11 +76,11 @@ class CourseModel {
     String courseDay,
     String courseTime,
     String courseDepartment,
-    String courseHall,
-    String required,
+    int courseHall,
+    bool isRequired,
   }) {
     return CourseModel(
-      courseID: courseID ?? this.courseID,
+      courseID: this.courseID,
       courseName: courseName ?? this.courseName,
       courseCode: courseCode ?? this.courseCode,
       courseDoctor: courseDoctor ?? this.courseDoctor,
@@ -91,7 +91,7 @@ class CourseModel {
       courseTime: courseTime ?? this.courseTime,
       courseHall: courseHall ?? this.courseHall,
       courseDepartment: courseDepartment ?? this.courseDepartment,
-      required: required ?? this.required,
+      isRequired: isRequired ?? this.isRequired,
     );
   }
 }

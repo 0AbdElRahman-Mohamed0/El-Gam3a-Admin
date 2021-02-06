@@ -3,13 +3,12 @@ import 'package:elgam3a_admin/providers/courses_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
-import 'package:elgam3a_admin/widgets/successfully_update_pop_up.dart';
+import 'package:elgam3a_admin/widgets/successfully_updated_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class UpdateCourseScreen extends StatefulWidget {
   @override
@@ -22,9 +21,8 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
 
   String _name;
   String _code;
-  String _creditHours;
+  int _creditHours;
   String _department;
-  String _required;
 
   List<String> departments = [
     'Mathematics',
@@ -36,13 +34,6 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
     'Microbiology',
     'Biochemistry',
     'Geology',
-  ];
-
-  bool requiredSelected = true;
-
-  List<String> required = [
-    'TRUE',
-    'FALSE',
   ];
 
   _submit() async {
@@ -59,13 +50,12 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
         courseCode: _code,
         courseHours: _creditHours,
         courseDepartment: _department,
-        required: _required,
       );
       await context.read<CoursesProvider>().updateCourse(course);
       Navigator.pop(context);
       await showDialog(
           context: context,
-          builder: (BuildContext context) => SuccessfullyUpdatePopUp());
+          builder: (BuildContext context) => SuccessfullyUpdatedPopUp());
       Navigator.pop(context);
     } on FirebaseException catch (e) {
       Navigator.of(context).pop();
@@ -90,7 +80,6 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
   @override
   Widget build(BuildContext context) {
     final course = context.watch<CoursesProvider>().course;
-    print('hsada ${course.courseID}');
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -130,6 +119,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                   ),
                 ),
                 TextDataField(
+                  maxLength: 9,
                   labelName: 'Code',
                   hintText: 'Enter Course Code',
                   initialValue: course.courseCode,
@@ -137,9 +127,6 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                     _code = code;
                   },
                   keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                  ],
                   validator: Validator(
                     rules: [
                       RequiredRule(
@@ -147,8 +134,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                       ),
                       MinLengthRule(
                         9,
-                        validationMessage:
-                            'Code should have at least 9 characters.',
+                        validationMessage: 'Code should have 9 digits.',
                       ),
                     ],
                   ),
@@ -156,13 +142,13 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                 TextDataField(
                   labelName: 'Credit Hours',
                   hintText: 'Enter Course Credit Hours',
-                  initialValue: course.courseHours,
+                  initialValue: course.courseHours.toString(),
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp('[1-9]')),
                   ],
                   onSaved: (hours) {
-                    _creditHours = hours;
+                    _creditHours = num.parse(hours);
                   },
                   validator: Validator(
                     rules: [
@@ -172,7 +158,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                       MaxLengthRule(
                         1,
                         validationMessage:
-                            'Credit hours should have only 1 characters.',
+                            'Credit hours should have only 1 digit.',
                       ),
                     ],
                   ),
@@ -196,19 +182,21 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                 SizedBox(
                   height: 21,
                 ),
-                DropDown(
-                  needSpace: false,
-                  labelText: 'Required',
-                  hintText: 'Required?',
-                  value: course.required ?? _required,
-                  onChanged: (value) {
-                    _required = value;
-                    setState(() {});
-                  },
-                  list: required,
-                  onSaved: (value) {
-                    _required = value;
-                  },
+                Row(
+                  children: [
+                    Checkbox(
+                      activeColor: Theme.of(context).primaryColor,
+                      value: course.isRequired,
+                      onChanged: (value) {
+                        course.isRequired = value;
+                        setState(() {});
+                      },
+                    ),
+                    Text(
+                      'Is required ?',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 21,

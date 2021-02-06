@@ -8,6 +8,7 @@ class TextDataField extends StatefulWidget {
   final String initialValue;
   final String hintText;
   final int maxLength;
+  final bool autofocus;
   final Function onSaved;
   final Validator validator;
   final TextInputType keyboardType;
@@ -18,6 +19,7 @@ class TextDataField extends StatefulWidget {
     this.controller,
     this.labelName,
     this.initialValue,
+    this.autofocus = false,
     this.onSaved,
     this.validator,
     this.hintText,
@@ -45,6 +47,7 @@ class _TextDataFieldState extends State<TextDataField> {
           height: 6,
         ),
         TextFormField(
+          autofocus: widget.autofocus,
           maxLength: widget.maxLength,
           controller: widget.controller,
           keyboardType: widget.keyboardType == TextInputType.number
@@ -59,27 +62,7 @@ class _TextDataFieldState extends State<TextDataField> {
           validator: widget.validator,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 17.6,
-            ),
             hintText: widget.hintText,
-            hintStyle: Theme.of(context).textTheme.headline2,
-            isDense: true,
-            filled: true,
-            fillColor: Theme.of(context).cardColor,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(
-                color: Colors.transparent,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(
-                color: Colors.transparent,
-              ),
-            ),
             suffixIcon: widget.suffixIcon,
           ),
         ),

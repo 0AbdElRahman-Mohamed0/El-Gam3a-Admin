@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart' hide FontWeight;
 import 'package:flutter/material.dart' hide FontWeight;
 
-class SuccessfullyUpdatePopUp extends StatelessWidget {
+class SuccessfullyUpdatedPopUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
@@ -11,10 +11,7 @@ class SuccessfullyUpdatePopUp extends StatelessWidget {
           SizedBox(height: 24.0),
           Text(
             'Data updated successfully',
-            style: TextStyle(
-              fontSize: 16.0,
-              color: Theme.of(context).primaryColor,
-            ),
+            style: Theme.of(context).textTheme.headline1,
           ),
           SizedBox(height: 24.0),
           RaisedButton(

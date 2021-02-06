@@ -2,7 +2,10 @@ import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
+import 'package:elgam3a_admin/widgets/error_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
+import 'package:elgam3a_admin/widgets/user_added_pop_up.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -66,27 +69,38 @@ class _AddUserScreenState extends State<AddUserScreen> {
       );
       final pass = context.read<UsersProvider>().getRandomPassword();
       //TODO: put generated pass instead of 111111
-      await context.read<UsersProvider>().addNewStudent(user, '111111');
+      await context.read<UsersProvider>().addNewUser(user, '111111');
       Navigator.pop(context);
-      Alert(
+      showDialog(
         context: context,
-        title: 'User added',
-        desc: 'Email : $_email\nPassword : $pass',
-        style: AlertStyle(
-          titleStyle: Theme.of(context).textTheme.headline6,
-          descStyle: Theme.of(context).textTheme.headline1,
+        builder: (BuildContext context) => UserAddedPopUp(
+          email: _email,
+          password: pass,
         ),
-      ).show();
+      );
       _formKey.currentState.reset();
       _department = null;
       _division = null;
       _type = null;
       _autoValidate = false;
       setState(() {});
+    } on FirebaseException catch (e) {
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => ErrorPopUp(
+            message: 'Something went wrong, please try again \n ${e.message}'),
+      );
     } catch (e, s) {
       Navigator.pop(context);
       print(e);
       print(s);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => ErrorPopUp(
+            message:
+                'Something went wrong, please try again \n ${e.toString()}'),
+      );
     }
   }
 
@@ -111,6 +125,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
             child: Column(
               children: [
                 TextDataField(
+                  autofocus: true,
                   labelName: 'Name',
                   hintText: 'Enter Name',
                   onSaved: (name) {

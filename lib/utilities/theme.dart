@@ -11,6 +11,33 @@ class AppTheme {
     dividerColor: Color(0xFF9A9B9B),
     cardColor: Color(0xFFF2F2F2),
     shadowColor: Color(0xFF000000).withOpacity(0.1),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 17.6,
+      ),
+      hintStyle: TextStyle(
+        fontFamily: 'Calibri',
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: Color(0xFF707070),
+      ),
+      isDense: true,
+      filled: true,
+      fillColor: Color(0xFFF2F2F2),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5),
+        borderSide: BorderSide(
+          color: Colors.transparent,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5),
+        borderSide: BorderSide(
+          color: Colors.transparent,
+        ),
+      ),
+    ),
     textTheme: TextTheme(
       // title
       headline6: TextStyle(

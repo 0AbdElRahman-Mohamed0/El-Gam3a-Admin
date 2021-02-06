@@ -3,7 +3,7 @@ import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
-import 'package:elgam3a_admin/widgets/successfully_update_pop_up.dart';
+import 'package:elgam3a_admin/widgets/successfully_updated_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
@@ -69,7 +69,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
       Navigator.pop(context);
       await showDialog(
           context: context,
-          builder: (BuildContext context) => SuccessfullyUpdatePopUp());
+          builder: (BuildContext context) => SuccessfullyUpdatedPopUp());
       Navigator.pop(context);
     } on FirebaseException catch (e) {
       Navigator.of(context).pop();
@@ -168,8 +168,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                 if (user.type == 'Student') ...{
                   TextDataField(
                     inputFormatters: [
-                      FilteringTextInputFormatter.deny(
-                          RegExp("[A-Za-z~`!@\$'#%=+^&*()\"_-]"))
+                      FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
                     ],
                     keyboardType: TextInputType.number,
                     labelName: 'CGPA',

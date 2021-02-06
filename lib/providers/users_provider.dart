@@ -19,8 +19,8 @@ class UsersProvider extends ChangeNotifier {
   String getRandomPassword() => String.fromCharCodes(Iterable.generate(
       6, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-  Future<void> addNewStudent(UserModel user, String pass) async {
-    await _api.addNewStudent(user, pass);
+  Future<void> addNewUser(UserModel user, String pass) async {
+    await _api.addNewUser(user, pass);
   }
 
   Future<UserModel> getDataOfStudentByUnivID(String univID) async {

@@ -27,7 +27,7 @@ class ApiProvider {
   }
   ////
 
-  Future<void> addNewStudent(UserModel user, String pass) async {
+  Future<void> addNewUser(UserModel user, String pass) async {
     await auth.createUserWithEmailAndPassword(
       email: user.email,
       password: pass,
