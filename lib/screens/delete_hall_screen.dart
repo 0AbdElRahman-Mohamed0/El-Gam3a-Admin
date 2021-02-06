@@ -6,6 +6,7 @@ import 'package:elgam3a_admin/providers/faculities_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
+import 'package:elgam3a_admin/widgets/successfully_deleted_pop_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class DeleteHallScreen extends StatefulWidget {
 }
 
 class _DeleteHallScreenState extends State<DeleteHallScreen> {
+  final _formKey = GlobalKey<FormState>();
+  bool _autoValidate = false;
   bool _isLoading = true;
   FacultyModel _faculty;
   HallModel _hall;
@@ -54,10 +57,18 @@ class _DeleteHallScreenState extends State<DeleteHallScreen> {
   }
 
   _submit() async {
+    if (!_formKey.currentState.validate()) {
+      if (!_autoValidate) setState(() => _autoValidate = true);
+      return;
+    }
+    _formKey.currentState.save();
     try {
       LoadingScreen.show(context);
-
-      // await context.read<CoursesProvider>().addCourse(course);
+      await context.read<FacultiesProvider>().deleteHall(_hall, _faculty.id);
+      Navigator.pop(context);
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) => SuccessfullyDeletedPopUp());
       Navigator.pop(context);
     } on FirebaseException catch (e) {
       Navigator.pop(context);
@@ -95,66 +106,72 @@ class _DeleteHallScreenState extends State<DeleteHallScreen> {
             )
           : Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      DropDown<FacultyModel>(
-                        needSpace: false,
-                        labelText: 'Faculty',
-                        hintText: 'Select faculty',
-                        onChanged: (value) {
-                          _faculty = value;
-                          setState(() {});
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _autoValidate
+                    ? AutovalidateMode.always
+                    : AutovalidateMode.disabled,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        DropDown<FacultyModel>(
+                          needSpace: false,
+                          labelText: 'Faculty',
+                          hintText: 'Select faculty',
+                          onChanged: (value) {
+                            _faculty = value;
+                            setState(() {});
+                          },
+                          list: faculties,
+                          onSaved: (value) {
+                            _faculty = value;
+                          },
+                          validator: (v) =>
+                              v == null ? 'You must choose faculty.' : null,
+                        ),
+                        if (_faculty != null) ...{
+                          SizedBox(
+                            height: 24,
+                          ),
+                          DropDown<HallModel>(
+                            needSpace: false,
+                            labelText: 'Hall',
+                            hintText: 'Select Hall',
+                            onChanged: (value) {},
+                            list: _faculty.halls,
+                            onSaved: (value) {
+                              _hall = value;
+                            },
+                            validator: (v) =>
+                                v == null ? 'You must choose hall.' : null,
+                          ),
                         },
-                        list: faculties,
-                        onSaved: (value) {
-                          _faculty = value;
-                        },
-                        validator: (v) =>
-                            v == null ? 'You must choose faculty.' : null,
-                      ),
-                      if (_faculty != null) ...{
                         SizedBox(
                           height: 24,
                         ),
-                        DropDown<HallModel>(
-                          needSpace: false,
-                          labelText: 'Hall',
-                          hintText: 'Select Hall',
-                          onChanged: (value) {},
-                          list: _faculty.halls,
-                          onSaved: (value) {
-                            _hall = value;
-                          },
-                          validator: (v) =>
-                              v == null ? 'You must choose hall.' : null,
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () => _submit(),
+                      child: Container(
+                        width: double.infinity,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Theme.of(context).buttonColor,
                         ),
-                      },
-                      SizedBox(
-                        height: 24,
-                      ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () => _submit(),
-                    child: Container(
-                      width: double.infinity,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Theme.of(context).buttonColor,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Add Course',
-                          style: Theme.of(context).textTheme.headline3,
+                        child: Center(
+                          child: Text(
+                            'Delete Hall',
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

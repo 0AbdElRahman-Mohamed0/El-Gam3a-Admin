@@ -162,7 +162,7 @@ class ApiProvider {
     }
   }
 
-  Future<void> addHall(List<HallModel> halls, String facultyID) async {
+  Future<void> updateHalls(List<HallModel> halls, String facultyID) async {
     await firestore
         .collection(FacultyData.FACULTY_TABLE)
         .doc(facultyID)

@@ -13,12 +13,21 @@ class FacultiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateHalls(HallModel hall, String facultyID) async {
+  addHall(HallModel hall, String facultyID) async {
     final halls =
         faculties.firstWhere((element) => element.id == facultyID).halls;
     halls.add(hall);
     if (halls.where((element) => element.id == hall.id).isEmpty) {
-      await _api.addHall(halls, facultyID);
+      await _api.updateHalls(halls, facultyID);
+    }
+  }
+
+  deleteHall(HallModel hall, String facultyID) async {
+    final halls =
+        faculties.firstWhere((element) => element.id == facultyID).halls;
+    halls.removeWhere((element) => element.id == hall.id);
+    if (halls.where((element) => element.id == hall.id).isEmpty) {
+      await _api.updateHalls(halls, facultyID);
     }
   }
 }

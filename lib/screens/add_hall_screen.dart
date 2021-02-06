@@ -71,7 +71,7 @@ class _AddHallScreenState extends State<AddHallScreen> {
         capacity: _hallCapacity,
         id: _hallID,
       );
-      await context.read<FacultiesProvider>().updateHalls(hall, _faculty.id);
+      await context.read<FacultiesProvider>().addHall(hall, _faculty.id);
       Navigator.pop(context);
       await showDialog(
           context: context,
