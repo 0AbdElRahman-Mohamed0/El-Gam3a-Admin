@@ -1,4 +1,3 @@
-import 'package:elgam3a_admin/models/course_model.dart';
 import 'package:elgam3a_admin/providers/auth_provider.dart';
 import 'package:elgam3a_admin/providers/courses_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
@@ -8,7 +7,6 @@ import 'package:elgam3a_admin/widgets/text_data_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DeleteCourseScreen extends StatefulWidget {
   @override

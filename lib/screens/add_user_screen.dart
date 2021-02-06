@@ -8,7 +8,6 @@ import 'package:elgam3a_admin/widgets/user_added_pop_up.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddUserScreen extends StatefulWidget {
   @override

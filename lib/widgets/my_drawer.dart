@@ -1,22 +1,14 @@
-import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/screens/add_course_screen.dart';
 import 'package:elgam3a_admin/screens/add_user_screen.dart';
 import 'package:elgam3a_admin/screens/delete_course_screen.dart';
 import 'package:elgam3a_admin/screens/delete_user_screen.dart';
-import 'package:elgam3a_admin/screens/update_user_screen.dart';
 import 'package:elgam3a_admin/widgets/drawer_option.dart';
-import 'package:elgam3a_admin/widgets/error_pop_up.dart';
-import 'package:elgam3a_admin/widgets/text_data_field.dart';
 import 'package:elgam3a_admin/widgets/update_course_pop_up.dart';
 import 'package:elgam3a_admin/widgets/update_user_pop_up.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MyDrawer extends StatelessWidget {
-  String _univID;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
