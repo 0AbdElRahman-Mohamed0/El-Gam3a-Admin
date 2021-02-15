@@ -76,7 +76,7 @@ class _DropDownState<T> extends State<DropDown<T>> {
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
               horizontal: 10,
-              vertical: 17.6,
+              vertical: 18,
             ),
             hintStyle:
                 Theme.of(context).textTheme.headline2.copyWith(fontSize: 16),

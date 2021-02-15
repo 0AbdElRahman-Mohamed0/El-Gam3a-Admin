@@ -1,5 +1,5 @@
 import 'package:elgam3a_admin/providers/users_provider.dart';
-import 'package:elgam3a_admin/screens/update_user_screen.dart';
+import 'package:elgam3a_admin/screens/update_screens/update_user_screen.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';

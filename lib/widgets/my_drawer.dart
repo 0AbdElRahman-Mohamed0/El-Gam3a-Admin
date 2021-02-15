@@ -1,10 +1,10 @@
-import 'package:elgam3a_admin/screens/add_course_screen.dart';
-import 'package:elgam3a_admin/screens/delete_hall_screen.dart';
+import 'package:elgam3a_admin/screens/add_screens/add_course_screen.dart';
+import 'package:elgam3a_admin/screens/delete_screens/delete_hall_screen.dart';
 import 'package:elgam3a_admin/screens/unused_screens/add_faculty_screen.dart';
-import 'package:elgam3a_admin/screens/add_hall_screen.dart';
-import 'package:elgam3a_admin/screens/add_user_screen.dart';
-import 'package:elgam3a_admin/screens/delete_course_screen.dart';
-import 'package:elgam3a_admin/screens/delete_user_screen.dart';
+import 'package:elgam3a_admin/screens/add_screens/add_hall_screen.dart';
+import 'package:elgam3a_admin/screens/add_screens/add_user_screen.dart';
+import 'package:elgam3a_admin/screens/delete_screens/delete_course_screen.dart';
+import 'package:elgam3a_admin/screens/delete_screens/delete_user_screen.dart';
 import 'package:elgam3a_admin/widgets/drawer_option.dart';
 import 'package:elgam3a_admin/widgets/update_course_pop_up.dart';
 import 'package:elgam3a_admin/widgets/update_user_pop_up.dart';
@@ -56,8 +56,7 @@ class MyDrawer extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.close,
-                          color: Theme.of(context).iconTheme.color,
-                          size: Theme.of(context).iconTheme.size,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                         ),
                       ],
                     ),
