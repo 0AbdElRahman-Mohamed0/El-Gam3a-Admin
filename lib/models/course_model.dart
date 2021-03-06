@@ -14,6 +14,7 @@ class CourseModel {
     this.courseHours,
     this.courseDepartment,
     this.isRequired,
+    this.show,
   });
 
   String courseID;
@@ -28,6 +29,7 @@ class CourseModel {
   String courseDepartment;
   int courseHall;
   bool isRequired;
+  bool show;
 
   CourseModel.fromMap(Map<String, dynamic> m) {
     courseName = m[CourseData.NAME];
@@ -35,6 +37,7 @@ class CourseModel {
     courseDoctor = m[CourseData.DOCTOR];
     courseHours = m[CourseData.CREDIT_HOURS];
     courseID = m[CourseData.ID];
+    show = m[CourseData.SHOW];
 //    m[CourseData.ASSISTANTS]?.forEach(
 //          (e) => courseAssistants.add(
 //        UserModel.fromMap(e),
@@ -62,6 +65,7 @@ class CourseModel {
       CourseData.HALL: courseHall,
       CourseData.DEPARTMENT: courseDepartment,
       CourseData.REQUIRED: isRequired,
+      CourseData.SHOW: show ?? false,
     };
   }
 
@@ -78,6 +82,7 @@ class CourseModel {
     String courseDepartment,
     int courseHall,
     bool isRequired,
+    bool show,
   }) {
     return CourseModel(
       courseID: this.courseID,
@@ -92,6 +97,7 @@ class CourseModel {
       courseHall: courseHall ?? this.courseHall,
       courseDepartment: courseDepartment ?? this.courseDepartment,
       isRequired: isRequired ?? this.isRequired,
+      show: show ?? this.show,
     );
   }
 

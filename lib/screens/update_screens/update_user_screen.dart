@@ -241,7 +241,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                     needSpace: false,
                     labelText: 'Minor',
                     hintText: 'Select minor',
-                    value: user.minor ?? _minor,
+                    value: _minor ?? user.minor,
                     list: departments,
                     onChanged: (department) {
                       _minor = department;

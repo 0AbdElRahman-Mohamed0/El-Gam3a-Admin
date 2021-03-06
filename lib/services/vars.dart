@@ -30,6 +30,7 @@ abstract class CourseData {
   static const String CREDIT_HOURS = "credit_hours";
   static const String DEPARTMENT = "department";
   static const String REQUIRED = 'required';
+  static const String SHOW = 'show';
 }
 
 abstract class HallData {
