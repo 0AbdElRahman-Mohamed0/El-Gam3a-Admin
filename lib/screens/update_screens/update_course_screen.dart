@@ -1,7 +1,7 @@
 import 'package:elgam3a_admin/models/course_model.dart';
-import 'package:elgam3a_admin/providers/courses_provider.dart';
+import 'package:elgam3a_admin/models/department_model.dart';
+import 'package:elgam3a_admin/providers/departments_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
-import 'package:elgam3a_admin/widgets/drop_down.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
 import 'package:elgam3a_admin/widgets/successfully_updated_pop_up.dart';
 import 'package:elgam3a_admin/widgets/text_data_field.dart';
@@ -9,6 +9,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../widgets/drop_down.dart';
 
 class UpdateCourseScreen extends StatefulWidget {
   @override
@@ -19,22 +21,24 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
+  DepartmentModel _department;
+  CourseModel _course;
+
   String _name;
   String _code;
   int _creditHours;
-  String _department;
 
-  List<String> departments = [
-    'Mathematics',
-    'Statistics',
-    'Computer Science',
-    'Chemistry',
-    'Physics',
-    'Biophysics',
-    'Microbiology',
-    'Biochemistry',
-    'Geology',
-  ];
+  // List<String> departments = [
+  //   'Mathematics',
+  //   'Statistics',
+  //   'Computer Science',
+  //   'Chemistry',
+  //   'Physics',
+  //   'Biophysics',
+  //   'Microbiology',
+  //   'Biochemistry',
+  //   'Geology',
+  // ];
 
   _submit() async {
     if (!_formKey.currentState.validate()) {
@@ -44,14 +48,15 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
     _formKey.currentState.save();
     try {
       LoadingScreen.show(context);
-      CourseModel course = context.read<CoursesProvider>().course;
-      course = course.copyWith(
+      _course = _course.copyWith(
         courseName: _name,
         courseCode: _code,
         courseHours: _creditHours,
-        courseDepartment: _department,
+        // courseDepartment: _department,
       );
-      await context.read<CoursesProvider>().updateCourse(course);
+      await context
+          .read<DepartmentsProvider>()
+          .updateCourse(_course, _department.id);
       Navigator.pop(context);
       await showDialog(
           context: context,
@@ -79,7 +84,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final course = context.watch<CoursesProvider>().course;
+    final departments = context.watch<DepartmentsProvider>().departments;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -98,76 +103,10 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
             padding: EdgeInsets.symmetric(horizontal: 2.7),
             child: Column(
               children: [
-                TextDataField(
-                  labelName: 'Name',
-                  hintText: 'Enter Course Name',
-                  initialValue: course.courseName,
-                  onSaved: (name) {
-                    _name = name;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                        validationMessage: 'Name is required.',
-                      ),
-                      MinLengthRule(
-                        3,
-                        validationMessage:
-                            'Name should have at least 3 characters.',
-                      ),
-                    ],
-                  ),
-                ),
-                TextDataField(
-                  maxLength: 9,
-                  labelName: 'Code',
-                  hintText: 'Enter Course Code',
-                  initialValue: course.courseCode,
-                  onSaved: (code) {
-                    _code = code;
-                  },
-                  keyboardType: TextInputType.number,
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                        validationMessage: 'Code is required.',
-                      ),
-                      MinLengthRule(
-                        9,
-                        validationMessage: 'Code should have 9 digits.',
-                      ),
-                    ],
-                  ),
-                ),
-                TextDataField(
-                  labelName: 'Credit Hours',
-                  hintText: 'Enter Course Credit Hours',
-                  initialValue: course.courseHours.toString(),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[1-9]')),
-                  ],
-                  onSaved: (hours) {
-                    _creditHours = num.parse(hours);
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                        validationMessage: 'Credit hours is required.',
-                      ),
-                      MaxLengthRule(
-                        1,
-                        validationMessage:
-                            'Credit hours should have only 1 digit.',
-                      ),
-                    ],
-                  ),
-                ),
-                DropDown(
+                DropDown<DepartmentModel>(
                   needSpace: false,
                   labelText: 'Department',
                   hintText: 'Select department',
-                  value: course.courseDepartment ?? _department,
                   onChanged: (value) {
                     _department = value;
                     setState(() {});
@@ -176,28 +115,131 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                   onSaved: (value) {
                     _department = value;
                   },
-                  validator: (String v) =>
-                      v == null ? 'You must choose department.' : null,
+                  validator: (v) =>
+                      v == null ? 'You must choose faculty.' : null,
                 ),
-                SizedBox(
-                  height: 21,
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                      activeColor: Theme.of(context).primaryColor,
-                      value: course.isRequired,
-                      onChanged: (value) {
-                        course.isRequired = value;
-                        setState(() {});
-                      },
+                if (_department != null) ...{
+                  SizedBox(
+                    height: 24,
+                  ),
+                  DropDown<CourseModel>(
+                    needSpace: false,
+                    labelText: 'Course',
+                    hintText: 'Select Course',
+                    onChanged: (value) {
+                      _course = value;
+                      setState(() {});
+                    },
+                    list: _department.courses,
+                    onSaved: (value) {
+                      _course = value;
+                    },
+                    validator: (v) =>
+                        v == null ? 'You must choose course.' : null,
+                  ),
+                },
+                if (_course != null) ...{
+                  TextDataField(
+                    labelName: 'Name',
+                    hintText: 'Enter Course Name',
+                    initialValue: _course.courseName,
+                    onSaved: (name) {
+                      _name = name;
+                    },
+                    validator: Validator(
+                      rules: [
+                        RequiredRule(
+                          validationMessage: 'Name is required.',
+                        ),
+                        MinLengthRule(
+                          3,
+                          validationMessage:
+                              'Name should have at least 3 characters.',
+                        ),
+                      ],
                     ),
-                    Text(
-                      'Is required ?',
-                      style: Theme.of(context).textTheme.headline1,
+                  ),
+                  TextDataField(
+                    maxLength: 9,
+                    labelName: 'Code',
+                    hintText: 'Enter Course Code',
+                    initialValue: _course.courseCode,
+                    onSaved: (code) {
+                      _code = code;
+                    },
+                    keyboardType: TextInputType.number,
+                    validator: Validator(
+                      rules: [
+                        RequiredRule(
+                          validationMessage: 'Code is required.',
+                        ),
+                        MinLengthRule(
+                          9,
+                          validationMessage: 'Code should have 9 digits.',
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  TextDataField(
+                    labelName: 'Credit Hours',
+                    hintText: 'Enter Course Credit Hours',
+                    initialValue: _course.courseHours.toString(),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[1-9]')),
+                    ],
+                    onSaved: (hours) {
+                      _creditHours = num.parse(hours);
+                    },
+                    validator: Validator(
+                      rules: [
+                        RequiredRule(
+                          validationMessage: 'Credit hours is required.',
+                        ),
+                        MaxLengthRule(
+                          1,
+                          validationMessage:
+                              'Credit hours should have only 1 digit.',
+                        ),
+                      ],
+                    ),
+                  ),
+                  // DropDown(
+                  //   needSpace: false,
+                  //   labelText: 'Department',
+                  //   hintText: 'Select department',
+                  //   value: course.courseDepartment ?? _department,
+                  //   onChanged: (value) {
+                  //     _department = value;
+                  //     setState(() {});
+                  //   },
+                  //   list: departments,
+                  //   onSaved: (value) {
+                  //     _department = value;
+                  //   },
+                  //   validator: (String v) =>
+                  //       v == null ? 'You must choose department.' : null,
+                  // ),
+                  // SizedBox(
+                  //   height: 21,
+                  // ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: _course.isRequired,
+                        onChanged: (value) {
+                          _course.isRequired = value;
+                          setState(() {});
+                        },
+                      ),
+                      Text(
+                        'Is required ?',
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                    ],
+                  ),
+                },
                 SizedBox(
                   height: 21,
                 ),

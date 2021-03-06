@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elgam3a_admin/models/course_model.dart';
+import 'package:elgam3a_admin/models/department_model.dart';
 import 'package:elgam3a_admin/models/faculty_model.dart';
 import 'package:elgam3a_admin/models/hall_model.dart';
 import 'package:elgam3a_admin/models/user_model.dart';
@@ -48,14 +47,26 @@ class ApiProvider {
 
   /////// Add Course //////////////////////////////////////////////
 
-  Future<void> addCourse(CourseModel course) async {
-    final DocumentReference data =
-        await firestore.collection(CourseData.COURSE_TABLE).add(course.toMap());
+  //TODO : old one
+  // Future<void> addCourse(CourseModel course) async {
+  //   final DocumentReference data =
+  //       await firestore.collection(CourseData.COURSE_TABLE).add(course.toMap());
+  //
+  //   await firestore
+  //       .collection(CourseData.COURSE_TABLE)
+  //       .doc(data.id)
+  //       .update({CourseData.ID: data.id});
+  // }
 
+  //TODO : new one of courses add , delete and update
+  Future<void> updateCourse(
+      List<CourseModel> courses, String departmentID) async {
     await firestore
-        .collection(CourseData.COURSE_TABLE)
-        .doc(data.id)
-        .update({CourseData.ID: data.id});
+        .collection(DepartmentData.DEPARTMENT_TABLE)
+        .doc(departmentID)
+        .update({
+      DepartmentData.COURSES: courses.map((course) => course.toMap()).toList(),
+    });
   }
 
   ///////////// DELETE USER //////////////////////////
@@ -115,21 +126,21 @@ class ApiProvider {
   }
 
   ///////////// DELETE COURSE //////////////////////////
-  Future<void> deleteCourse(String courseCode) async {
-    await firestore
-        .collection(CourseData.COURSE_TABLE)
-        .where(CourseData.CODE, isEqualTo: courseCode)
-        .get()
-        .then((value) async {
-      final db = firestore.batch();
-
-      for (final i in value.docs) {
-        db.delete(i.reference);
-      }
-
-      await db.commit();
-    });
-  }
+  // Future<void> deleteCourse(String courseCode) async {
+  //   await firestore
+  //       .collection(CourseData.COURSE_TABLE)
+  //       .where(CourseData.CODE, isEqualTo: courseCode)
+  //       .get()
+  //       .then((value) async {
+  //     final db = firestore.batch();
+  //
+  //     for (final i in value.docs) {
+  //       db.delete(i.reference);
+  //     }
+  //
+  //     await db.commit();
+  //   });
+  // }
 
 //////////// Update USER //////////////////
   Future<void> updateUser(UserModel user) async {
@@ -139,18 +150,18 @@ class ApiProvider {
         .update(user.toMap());
   }
 
-  Future<void> updateCourse(CourseModel course) async {
-    await firestore
-        .collection(CourseData.COURSE_TABLE)
-        .doc(course.courseID)
-        .update(course.toMap());
-  }
+  // Future<void> updateCourse(CourseModel course) async {
+  //   await firestore
+  //       .collection(CourseData.COURSE_TABLE)
+  //       .doc(course.courseID)
+  //       .update(course.toMap());
+  // }
 
   Future<List<FacultyModel>> getFaculties() async {
     final _response =
         await firestore.collection(FacultyData.FACULTY_TABLE).get();
     if (_response.docs.isNotEmpty) {
-      List<FacultyModel> _faculties = [];
+      final List<FacultyModel> _faculties = [];
       _response.docs.forEach((element) {
         _faculties.add(FacultyModel.fromMap(element.data()));
       });
@@ -162,13 +173,29 @@ class ApiProvider {
     }
   }
 
-  Future<void> updateHalls(List<HallModel> halls, String facultyID) async {
+  Future<void> updateHall(List<HallModel> halls, String facultyID) async {
     await firestore
         .collection(FacultyData.FACULTY_TABLE)
         .doc(facultyID)
         .update({
       FacultyData.HALLS: halls.map((hall) => hall.toMap()).toList(),
     });
+  }
+
+  Future<List<DepartmentModel>> getDepartments() async {
+    final _response =
+        await firestore.collection(DepartmentData.DEPARTMENT_TABLE).get();
+    if (_response.docs.isNotEmpty) {
+      final List<DepartmentModel> _departments = [];
+      _response.docs.forEach((department) {
+        _departments.add(DepartmentModel.fromMap(department.data()));
+      });
+      return _departments;
+    } else {
+      print('api Error@getDepartments');
+      // Err
+      throw _response.docs;
+    }
   }
 
 //   //////////////FORGET PASSWORD//////////////////////////////////////

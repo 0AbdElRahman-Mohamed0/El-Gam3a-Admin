@@ -44,3 +44,10 @@ abstract class FacultyData {
   static const String NAME = "name";
   static const String HALLS = "halls";
 }
+
+abstract class DepartmentData {
+  static const String DEPARTMENT_TABLE = "departments_data";
+  static const String ID = "id";
+  static const String NAME = "name";
+  static const String COURSES = "courses";
+}

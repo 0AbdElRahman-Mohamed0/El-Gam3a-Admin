@@ -1,11 +1,12 @@
-import 'package:elgam3a_admin/providers/courses_provider.dart';
+import 'package:elgam3a_admin/models/course_model.dart';
+import 'package:elgam3a_admin/models/department_model.dart';
+import 'package:elgam3a_admin/providers/departments_provider.dart';
 import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/screens/update_screens/update_course_screen.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
+import 'package:elgam3a_admin/widgets/drop_down.dart';
 import 'package:elgam3a_admin/widgets/error_pop_up.dart';
-import 'package:elgam3a_admin/widgets/text_data_field.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/cupertino.dart' hide FontWeight;
 import 'package:flutter/material.dart' hide FontWeight;
 
@@ -17,7 +18,9 @@ class UpdateCoursePopUp extends StatefulWidget {
 class _UpdateCoursePopUpState extends State<UpdateCoursePopUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
-  String _courseCode;
+
+  DepartmentModel _department;
+  CourseModel _course;
 
   _getCourse() async {
     if (!_formKey.currentState.validate()) {
@@ -27,7 +30,7 @@ class _UpdateCoursePopUpState extends State<UpdateCoursePopUp> {
     _formKey.currentState.save();
     try {
       LoadingScreen.show(context);
-      await context.read<CoursesProvider>().getCourseByCode(_courseCode);
+      // await context.read<DepartmentsProvider>().getCourseByCode(_courseCode);
       Navigator.pop(context);
       Navigator.push(
         context,
@@ -57,9 +60,10 @@ class _UpdateCoursePopUpState extends State<UpdateCoursePopUp> {
 
   @override
   Widget build(BuildContext context) {
+    final departments = context.watch<DepartmentsProvider>().departments;
     return AlertDialog(
       title: Text(
-        'Course code',
+        'Update Course',
         style: Theme.of(context).textTheme.headline6,
       ),
       content: Form(
@@ -69,21 +73,38 @@ class _UpdateCoursePopUpState extends State<UpdateCoursePopUp> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            TextDataField(
-              maxLength: 11,
-              keyboardType: TextInputType.number,
-              labelName: '',
-              hintText: 'Enter course code',
-              onSaved: (courseCode) {
-                _courseCode = courseCode;
+            DropDown<DepartmentModel>(
+              needSpace: false,
+              labelText: 'Department',
+              hintText: 'Select department',
+              onChanged: (value) {
+                _department = value;
+                setState(() {});
               },
-              validator: Validator(
-                rules: [
-                  RequiredRule(validationMessage: 'Course code is required.'),
-                  MinLengthRule(9,
-                      validationMessage: 'Course code should be 9 number.'),
-                ],
+              list: departments,
+              onSaved: (value) {
+                _department = value;
+              },
+              validator: (v) => v == null ? 'You must choose faculty.' : null,
+            ),
+            if (_department != null) ...{
+              SizedBox(
+                height: 24,
               ),
+              DropDown<CourseModel>(
+                needSpace: false,
+                labelText: 'Course',
+                hintText: 'Select Course',
+                onChanged: (value) {},
+                list: _department.courses,
+                onSaved: (value) {
+                  _course = value;
+                },
+                validator: (v) => v == null ? 'You must choose course.' : null,
+              ),
+            },
+            SizedBox(
+              height: 24,
             ),
             RaisedButton(
               onPressed: _getCourse,

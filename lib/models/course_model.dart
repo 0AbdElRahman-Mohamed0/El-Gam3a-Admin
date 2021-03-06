@@ -94,4 +94,9 @@ class CourseModel {
       isRequired: isRequired ?? this.isRequired,
     );
   }
+
+  @override
+  String toString() {
+    return courseName;
+  }
 }

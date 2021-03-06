@@ -1,5 +1,5 @@
 import 'package:elgam3a_admin/providers/auth_provider.dart';
-import 'package:elgam3a_admin/providers/courses_provider.dart';
+import 'package:elgam3a_admin/providers/departments_provider.dart';
 import 'package:elgam3a_admin/providers/faculities_provider.dart';
 import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/screens/splash_screen.dart';
@@ -23,10 +23,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => UsersProvider()),
-        ChangeNotifierProvider(create: (_) => CoursesProvider()),
-        ChangeNotifierProvider(create: (_) => FacultiesProvider()),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<UsersProvider>(create: (_) => UsersProvider()),
+        // ChangeNotifierProvider<CoursesProvider>(create: (_) => CoursesProvider()),
+        ChangeNotifierProvider<FacultiesProvider>(
+            create: (_) => FacultiesProvider()),
+        ChangeNotifierProvider<DepartmentsProvider>(
+            create: (_) => DepartmentsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
