@@ -264,7 +264,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                               children: [
                                 Checkbox(
                                   activeColor: Theme.of(context).primaryColor,
-                                  value: _course.show,
+                                  value: _course?.show ?? false,
                                   onChanged: (value) {
                                     _course.show = value;
                                     setState(() {});
