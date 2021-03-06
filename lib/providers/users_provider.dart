@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elgam3a_admin/models/user_model.dart';
 import 'package:elgam3a_admin/services/api.dart';
 import 'package:flutter/material.dart';
 
@@ -23,10 +23,9 @@ class UsersProvider extends ChangeNotifier {
     await _api.addNewUser(user, pass);
   }
 
-  Future<UserModel> getDataOfStudentByUnivID(String univID) async {
+  Future<void> getDataOfStudentByUnivID(String univID) async {
     user = await _api.getDataOfStudentByUnivID(univID);
     notifyListeners();
-    return user;
   }
 
   Future<void> deleteUser(String univID) async {

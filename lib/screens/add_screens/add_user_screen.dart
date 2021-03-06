@@ -1,4 +1,6 @@
+import 'package:elgam3a_admin/models/department_model.dart';
 import 'package:elgam3a_admin/models/user_model.dart';
+import 'package:elgam3a_admin/providers/departments_provider.dart';
 import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
@@ -32,17 +34,17 @@ class _AddUserScreenState extends State<AddUserScreen> {
     'Geology',
   ];
 
-  List<String> departments = [
-    'Mathematics',
-    'Statistics',
-    'Computer Science',
-    'Chemistry',
-    'Physics',
-    'Biophysics',
-    'Microbiology',
-    'Biochemistry',
-    'Geology',
-  ];
+  // List<String> departments = [
+  //   'Mathematics',
+  //   'Statistics',
+  //   'Computer Science',
+  //   'Chemistry',
+  //   'Physics',
+  //   'Biophysics',
+  //   'Microbiology',
+  //   'Biochemistry',
+  //   'Geology',
+  // ];
 
   List<String> types = [
     'Student',
@@ -104,6 +106,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final departments = context.watch<DepartmentsProvider>().departments;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -226,19 +229,19 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   ),
                 },
                 if (_type == 'Professor') ...{
-                  DropDown(
+                  DropDown<DepartmentModel>(
                     needSpace: false,
                     labelText: 'Department',
                     hintText: 'Select department',
                     list: departments,
                     onChanged: (department) {
-                      _department = department;
+                      _department = department.name;
                       setState(() {});
                     },
                     onSaved: (department) {
-                      _department = department;
+                      _department = department.name;
                     },
-                    validator: (String v) =>
+                    validator: (v) =>
                         v == null ? 'You must choose department.' : null,
                   ),
                 },

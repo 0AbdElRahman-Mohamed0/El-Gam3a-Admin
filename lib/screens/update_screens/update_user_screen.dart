@@ -38,6 +38,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
     'Microbiology',
     'Biochemistry',
     'Geology',
+    'Botany',
   ];
 
   List<String> divisions = [
