@@ -104,179 +104,201 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
           style: Theme.of(context).textTheme.headline3,
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: Form(
-          key: _formKey,
-          autovalidateMode: _autoValidate
-              ? AutovalidateMode.always
-              : AutovalidateMode.disabled,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.7),
-            child: Column(
-              children: [
-                TextDataField(
-                  labelName: 'Name',
-                  hintText: 'Enter Name',
-                  initialValue: user.name,
-                  onSaved: (name) {
-                    _name = name;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                        validationMessage: 'Name is required.',
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: constraints.maxWidth,
+                minHeight: constraints.maxHeight),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _autoValidate
+                    ? AutovalidateMode.always
+                    : AutovalidateMode.disabled,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.7),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          TextDataField(
+                            labelName: 'Name',
+                            hintText: 'Enter Name',
+                            initialValue: user.name,
+                            onSaved: (name) {
+                              _name = name;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage: 'Name is required.',
+                                ),
+                                MinLengthRule(
+                                  3,
+                                  validationMessage:
+                                      'Name should have at least 3 characters.',
+                                ),
+                              ],
+                            ),
+                          ),
+                          TextDataField(
+                            labelName: 'Phone number',
+                            hintText: 'Enter Phone Number',
+                            initialValue: user.phoneNumber,
+                            maxLength: 11,
+                            keyboardType: TextInputType.number,
+                            onSaved: (phoneNumber) {
+                              _phoneNumber = phoneNumber;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage:
+                                      'Phone number is required.',
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (user.type == 'Student') ...{
+                            TextDataField(
+                              keyboardType: TextInputType.number,
+                              labelName: 'Completed hours',
+                              hintText: 'Enter completed hours',
+                              initialValue: user.completedHours,
+                              onSaved: (hours) {
+                                _completedHours = hours;
+                              },
+                              validator: Validator(
+                                rules: [
+                                  RequiredRule(
+                                      validationMessage:
+                                          'Completed hours is required.'),
+                                ],
+                              ),
+                            ),
+                            TextDataField(
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9.]')),
+                              ],
+                              keyboardType: TextInputType.number,
+                              labelName: 'CGPA',
+                              hintText: 'Enter CGPA',
+                              initialValue: user.gpa,
+                              onSaved: (cgpa) {
+                                _cgpa = cgpa;
+                              },
+                              validator: Validator(
+                                rules: [
+                                  RequiredRule(
+                                      validationMessage: 'CGPA is required.'),
+                                ],
+                              ),
+                            ),
+                          },
+                          TextDataField(
+                            keyboardType: TextInputType.number,
+                            labelName: 'Registered hours',
+                            hintText: 'Enter registered hours',
+                            initialValue: user.registeredHours,
+                            onSaved: (hours) {
+                              _registeredHours = hours;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                    validationMessage:
+                                        'Registered hours is required.'),
+                              ],
+                            ),
+                          ),
+                          if (user.type == 'Student') ...{
+                            DropDown(
+                              needSpace: false,
+                              labelText: 'Division',
+                              hintText: 'Select division',
+                              list: divisions,
+                              value: user.division ?? _division,
+                              onChanged: (division) {
+                                _division = division;
+                                setState(() {});
+                              },
+                              onSaved: (division) {
+                                _division = division;
+                              },
+                              validator: (String v) => v == null
+                                  ? 'You must choose division.'
+                                  : null,
+                            ),
+                            SizedBox(
+                              height: 21,
+                            ),
+                          },
+                          DropDown(
+                            needSpace: false,
+                            labelText: 'Department',
+                            hintText: 'Select department',
+                            value: user.department ?? _department,
+                            list: departments,
+                            onChanged: (department) {
+                              _department = department;
+                              setState(() {});
+                            },
+                            onSaved: (department) {
+                              _department = department;
+                            },
+                            validator: (String v) => v == null
+                                ? 'You must choose department.'
+                                : null,
+                          ),
+                          if (user.type == 'Student') ...{
+                            DropDown(
+                              needSpace: false,
+                              labelText: 'Minor',
+                              hintText: 'Select minor',
+                              value: _minor ?? user.minor,
+                              list: departments,
+                              onChanged: (department) {
+                                _minor = department;
+                                setState(() {});
+                              },
+                              onSaved: (department) {
+                                _minor = department;
+                              },
+                              validator: (String v) => v == null
+                                  ? 'You must choose department.'
+                                  : null,
+                            ),
+                          },
+                          SizedBox(
+                            height: 21,
+                          ),
+                        ],
                       ),
-                      MinLengthRule(
-                        3,
-                        validationMessage:
-                            'Name should have at least 3 characters.',
+                      GestureDetector(
+                        onTap: () => _submit(),
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Theme.of(context).buttonColor,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Update User',
+                              style: Theme.of(context).textTheme.headline3,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-                TextDataField(
-                  labelName: 'Phone number',
-                  hintText: 'Enter Phone Number',
-                  initialValue: user.phoneNumber,
-                  maxLength: 11,
-                  keyboardType: TextInputType.number,
-                  onSaved: (phoneNumber) {
-                    _phoneNumber = phoneNumber;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                        validationMessage: 'Phone number is required.',
-                      ),
-                    ],
-                  ),
-                ),
-                TextDataField(
-                  keyboardType: TextInputType.number,
-                  labelName: 'Completed hours',
-                  hintText: 'Enter completed hours',
-                  initialValue: user.completedHours,
-                  onSaved: (hours) {
-                    _completedHours = hours;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                          validationMessage: 'Completed hours is required.'),
-                    ],
-                  ),
-                ),
-                if (user.type == 'Student') ...{
-                  TextDataField(
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
-                    ],
-                    keyboardType: TextInputType.number,
-                    labelName: 'CGPA',
-                    hintText: 'Enter CGPA',
-                    initialValue: user.gpa,
-                    onSaved: (cgpa) {
-                      _cgpa = cgpa;
-                    },
-                    validator: Validator(
-                      rules: [
-                        RequiredRule(validationMessage: 'CGPA is required.'),
-                      ],
-                    ),
-                  ),
-                },
-                TextDataField(
-                  keyboardType: TextInputType.number,
-                  labelName: 'Registered hours',
-                  hintText: 'Enter registered hours',
-                  initialValue: user.registeredHours,
-                  onSaved: (hours) {
-                    _registeredHours = hours;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                          validationMessage: 'Registered hours is required.'),
-                    ],
-                  ),
-                ),
-                if (user.type == 'Student') ...{
-                  DropDown(
-                    needSpace: false,
-                    labelText: 'Division',
-                    hintText: 'Select division',
-                    list: divisions,
-                    value: user.division ?? _division,
-                    onChanged: (division) {
-                      _division = division;
-                      setState(() {});
-                    },
-                    onSaved: (division) {
-                      _division = division;
-                    },
-                    validator: (String v) =>
-                        v == null ? 'You must choose division.' : null,
-                  ),
-                },
-                SizedBox(
-                  height: 21,
-                ),
-                DropDown(
-                  needSpace: false,
-                  labelText: 'Department',
-                  hintText: 'Select department',
-                  value: user.department ?? _department,
-                  list: departments,
-                  onChanged: (department) {
-                    _department = department;
-                    setState(() {});
-                  },
-                  onSaved: (department) {
-                    _department = department;
-                  },
-                  validator: (String v) =>
-                      v == null ? 'You must choose department.' : null,
-                ),
-                if (user.type == 'Student') ...{
-                  DropDown(
-                    needSpace: false,
-                    labelText: 'Minor',
-                    hintText: 'Select minor',
-                    value: _minor ?? user.minor,
-                    list: departments,
-                    onChanged: (department) {
-                      _minor = department;
-                      setState(() {});
-                    },
-                    onSaved: (department) {
-                      _minor = department;
-                    },
-                    validator: (String v) =>
-                        v == null ? 'You must choose department.' : null,
-                  ),
-                },
-                SizedBox(
-                  height: 21,
-                ),
-                GestureDetector(
-                  onTap: () => _submit(),
-                  child: Container(
-                    width: double.infinity,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Theme.of(context).buttonColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Update User',
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
