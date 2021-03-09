@@ -4,12 +4,11 @@ import 'package:elgam3a_admin/screens/add_screens/add_user_screen.dart';
 import 'package:elgam3a_admin/screens/delete_screens/delete_course_screen.dart';
 import 'package:elgam3a_admin/screens/delete_screens/delete_hall_screen.dart';
 import 'package:elgam3a_admin/screens/delete_screens/delete_user_screen.dart';
+import 'package:elgam3a_admin/screens/update_screens/update_course_screen.dart';
 import 'package:elgam3a_admin/widgets/drawer_option.dart';
 import 'package:elgam3a_admin/widgets/update_user_pop_up.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../screens/update_screens/update_course_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -102,9 +101,6 @@ class MyDrawer extends StatelessWidget {
               update: true,
               optionName: 'UPDATE COURSE',
               onPressed: () {
-                // showDialog(
-                //     context: context,
-                //     builder: (BuildContext context) => UpdateCoursePopUp());
                 Navigator.push(
                   context,
                   MaterialPageRoute(
