@@ -12,12 +12,18 @@ class UserAddedPopUp extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.ideographic,
             children: [
               Text(
                 'Email : ',
                 style: Theme.of(context).textTheme.headline1,
               ),
-              Text('$email',overflow: TextOverflow.clip,),
+              Expanded(
+                  child: Text(
+                '$email',
+                overflow: TextOverflow.clip,
+              )),
             ],
           ),
           SizedBox(height: 4.0),

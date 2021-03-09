@@ -36,13 +36,10 @@ class ApiProvider {
       password: pass,
     );
 
-    final DocumentReference data =
-        await firestore.collection(UserData.USER_DATA_TABLE).add(user.toMap());
-
     await firestore
         .collection(UserData.USER_DATA_TABLE)
-        .doc(data.id)
-        .update({UserData.ID: data.id});
+        .doc(auth.currentUser.uid)
+        .set(user.toMap());
   }
 
   /////// Add Course //////////////////////////////////////////////
