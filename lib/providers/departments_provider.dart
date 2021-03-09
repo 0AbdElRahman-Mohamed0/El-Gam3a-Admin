@@ -8,11 +8,15 @@ export 'package:provider/provider.dart';
 class DepartmentsProvider extends ChangeNotifier {
   final ApiProvider _api = ApiProvider.instance;
   List<DepartmentModel> departments = [];
+  List<String> departmentsStrings = [];
   List<CourseModel> courses = [];
   CourseModel course;
 
   Future<void> getDepartments() async {
     departments = await _api.getDepartments();
+    for (DepartmentModel department in departments) {
+      departmentsStrings.add(department.name);
+    }
     notifyListeners();
   }
 

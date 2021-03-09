@@ -1,4 +1,5 @@
 import 'package:elgam3a_admin/models/user_model.dart';
+import 'package:elgam3a_admin/providers/departments_provider.dart';
 import 'package:elgam3a_admin/providers/users_provider.dart';
 import 'package:elgam3a_admin/utilities/loading.dart';
 import 'package:elgam3a_admin/widgets/drop_down.dart';
@@ -28,18 +29,18 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   String _registeredHours;
   String _cgpa;
 
-  List<String> departments = [
-    'Mathematics',
-    'Statistics',
-    'Computer Science',
-    'Chemistry',
-    'Physics',
-    'Biophysics',
-    'Microbiology',
-    'Biochemistry',
-    'Geology',
-    'Botany',
-  ];
+  // List<String> departments = [
+  //   'Mathematics',
+  //   'Statistics',
+  //   'Computer Science',
+  //   'Chemistry',
+  //   'Physics',
+  //   'Biophysics',
+  //   'Microbiology',
+  //   'Biochemistry',
+  //   'Geology',
+  //   'Botany',
+  // ];
 
   List<String> divisions = [
     'Natural Science',
@@ -95,7 +96,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UsersProvider>().user;
-
+    final departments = context.watch<DepartmentsProvider>().departmentsStrings;
     return Scaffold(
       appBar: AppBar(
         title: Text(
