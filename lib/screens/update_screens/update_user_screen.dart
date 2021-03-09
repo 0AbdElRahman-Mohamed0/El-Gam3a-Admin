@@ -255,6 +255,9 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                                 : null,
                           ),
                           if (user.type == 'Student') ...{
+                            SizedBox(
+                              height: 21,
+                            ),
                             DropDown(
                               needSpace: false,
                               labelText: 'Minor',
