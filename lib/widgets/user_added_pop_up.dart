@@ -17,7 +17,7 @@ class UserAddedPopUp extends StatelessWidget {
                 'Email : ',
                 style: Theme.of(context).textTheme.headline1,
               ),
-              Text('$email'),
+              Text('$email',overflow: TextOverflow.clip,),
             ],
           ),
           SizedBox(height: 4.0),
