@@ -40,6 +40,11 @@ class ApiProvider {
         .collection(UserData.USER_DATA_TABLE)
         .doc(auth.currentUser.uid)
         .set(user.toMap());
+
+    await firestore
+        .collection(UserData.USER_DATA_TABLE)
+        .doc(auth.currentUser.uid)
+        .update({UserData.ID: auth.currentUser.uid});
   }
 
   /////// Add Course //////////////////////////////////////////////
