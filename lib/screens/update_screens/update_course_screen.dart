@@ -189,9 +189,9 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                                     validationMessage: 'Code is required.',
                                   ),
                                   MinLengthRule(
-                                    9,
+                                    3,
                                     validationMessage:
-                                        'Code should have 9 digits.',
+                                        'Code should have at least 3 characters.',
                                   ),
                                 ],
                               ),
@@ -203,7 +203,7 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                               keyboardType: TextInputType.number,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
-                                    RegExp('[1-9]')),
+                                    RegExp('[1-3]')),
                               ],
                               onSaved: (hours) {
                                 _creditHours = num.parse(hours);
@@ -222,25 +222,6 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                                 ],
                               ),
                             ),
-                            // DropDown(
-                            //   needSpace: false,
-                            //   labelText: 'Department',
-                            //   hintText: 'Select department',
-                            //   value: course.courseDepartment ?? _department,
-                            //   onChanged: (value) {
-                            //     _department = value;
-                            //     setState(() {});
-                            //   },
-                            //   list: departments,
-                            //   onSaved: (value) {
-                            //     _department = value;
-                            //   },
-                            //   validator: (String v) =>
-                            //       v == null ? 'You must choose department.' : null,
-                            // ),
-                            // SizedBox(
-                            //   height: 21,
-                            // ),
                             Row(
                               children: [
                                 Checkbox(

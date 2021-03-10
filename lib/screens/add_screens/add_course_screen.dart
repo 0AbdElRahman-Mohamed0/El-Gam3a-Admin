@@ -153,21 +153,20 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                         ),
                       ),
                       TextDataField(
-                        maxLength: 9,
                         labelName: 'Code',
                         hintText: 'Enter Course Code',
                         onSaved: (code) {
                           _code = code;
                         },
-                        keyboardType: TextInputType.number,
                         validator: Validator(
                           rules: [
                             RequiredRule(
                               validationMessage: 'Code is required.',
                             ),
                             MinLengthRule(
-                              9,
-                              validationMessage: 'Code should have 9 digits.',
+                              3,
+                              validationMessage:
+                                  'Code should have at least 3 characters.',
                             ),
                           ],
                         ),
@@ -178,7 +177,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                         hintText: 'Enter Course Credit Hours',
                         keyboardType: TextInputType.number,
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp('[1-9]')),
+                          FilteringTextInputFormatter.allow(RegExp('[1-3]')),
                         ],
                         onSaved: (hours) {
                           _creditHours = num.parse(hours);
@@ -196,21 +195,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           ],
                         ),
                       ),
-                      // DropDown(
-                      //   needSpace: false,
-                      //   labelText: 'Department',
-                      //   hintText: 'Select department',
-                      //   onChanged: (value) {},
-                      //   list: departments,
-                      //   onSaved: (value) {
-                      //     _department = value;
-                      //   },
-                      //   validator: (v) =>
-                      //       v == null ? 'You must choose department.' : null,
-                      // ),
-                      // SizedBox(
-                      //   height: 21,
-                      // ),
                       Row(
                         children: [
                           Checkbox(
