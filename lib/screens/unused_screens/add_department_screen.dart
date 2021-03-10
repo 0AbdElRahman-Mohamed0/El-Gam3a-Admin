@@ -166,7 +166,6 @@ class _AddDepartmentScreenState extends State<AddDepartmentScreen> {
         child: Column(
           children: [
             TextFormField(
-              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: 'name',
                 hintText: 'Enter name',
