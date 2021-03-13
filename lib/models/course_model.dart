@@ -46,7 +46,7 @@ class CourseModel {
 //    courseAssistants = m[CourseData.ASSISTANTS];
     courseLocation = m[CourseData.LOCATION];
     courseDay = m[CourseData.DAY];
-    courseTime = m[CourseData.TIME];
+    courseTime = m[CourseData.TIMES];
     courseHall = m[CourseData.HALL];
     courseDepartment = m[CourseData.DEPARTMENT];
     isRequired = m[CourseData.REQUIRED];
@@ -61,7 +61,7 @@ class CourseModel {
       CourseData.ASSISTANTS: courseAssistants ?? [],
       CourseData.LOCATION: courseLocation,
       CourseData.DAY: courseDay,
-      CourseData.TIME: courseTime,
+      CourseData.TIMES: courseTime,
       CourseData.HALL: courseHall,
       CourseData.DEPARTMENT: courseDepartment,
       CourseData.REQUIRED: isRequired,
