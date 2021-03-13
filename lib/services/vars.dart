@@ -25,7 +25,7 @@ abstract class CourseData {
   static const String ASSISTANTS = "assistants";
   static const String LOCATION = "location";
   static const String DAY = "day";
-  static const String TIMES = "times";
+  static const String TIMES = "time";
   static const String HALL = "hall";
   static const String CREDIT_HOURS = "credit_hours";
   static const String DEPARTMENT = "department";
