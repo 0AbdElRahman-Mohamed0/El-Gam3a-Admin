@@ -6,29 +6,7 @@ class HallModel {
   int capacity;
   String building;
 
-  List<DayModel> days = [
-    DayModel().copyWith(
-      name: 'Saturday',
-    ),
-    DayModel().copyWith(
-      name: 'Sunday',
-    ),
-    DayModel().copyWith(
-      name: 'Monday',
-    ),
-    DayModel().copyWith(
-      name: 'Tuesday',
-    ),
-    DayModel().copyWith(
-      name: 'Wednesday',
-    ),
-    DayModel().copyWith(
-      name: 'Thursday',
-    ),
-    DayModel().copyWith(
-      name: 'Friday',
-    ),
-  ];
+  List<DayModel> days = [];
 
   HallModel({this.id, this.capacity, this.building});
 
