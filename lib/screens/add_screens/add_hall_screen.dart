@@ -24,6 +24,7 @@ class _AddHallScreenState extends State<AddHallScreen> {
 
   int _hallID;
   int _hallCapacity;
+  String _building;
 
   _submit() async {
     if (!_formKey.currentState.validate()) {
@@ -36,6 +37,7 @@ class _AddHallScreenState extends State<AddHallScreen> {
       final hall = HallModel(
         capacity: _hallCapacity,
         id: _hallID,
+        building: _building,
       );
       await context.read<FacultiesProvider>().addHall(hall, _faculty.id);
       Navigator.pop(context);
@@ -120,6 +122,20 @@ class _AddHallScreenState extends State<AddHallScreen> {
                             rules: [
                               RequiredRule(
                                 validationMessage: 'Hall id is required.',
+                              ),
+                            ],
+                          ),
+                        ),
+                        TextDataField(
+                          labelName: 'Hall building',
+                          hintText: 'Enter hall building',
+                          onSaved: (building) {
+                            _building = building;
+                          },
+                          validator: Validator(
+                            rules: [
+                              RequiredRule(
+                                validationMessage: 'Hall building is required.',
                               ),
                             ],
                           ),

@@ -35,8 +35,9 @@ abstract class CourseData {
 
 abstract class HallData {
   static const String ID = "id";
-  static const String TIMES = "times";
+  static const String DAYS = "days";
   static const String CAPACITY = "capacity";
+  static const String BUILDING = "building";
 }
 
 abstract class FacultyData {

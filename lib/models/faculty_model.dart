@@ -9,7 +9,10 @@ class FacultyModel {
   FacultyModel.fromMap(Map<String, dynamic> m) {
     id = m[FacultyData.ID];
     name = m[FacultyData.NAME];
-    m[FacultyData.HALLS].forEach((hall) => halls.add(HallModel.fromMap(hall)));
+    if (m[FacultyData.HALLS] != null) {
+      m[FacultyData.HALLS]
+          .forEach((hall) => halls.add(HallModel.fromMap(hall)));
+    }
   }
 
   @override
