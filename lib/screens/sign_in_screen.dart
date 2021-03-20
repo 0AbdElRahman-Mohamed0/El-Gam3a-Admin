@@ -8,6 +8,7 @@ import 'package:elgam3a_admin/widgets/wrong_email_pop_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -84,117 +85,122 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: isWeb
-            ? EdgeInsets.symmetric(horizontal: 200)
-            : EdgeInsets.symmetric(horizontal: 12),
-        child: Stack(
-          children: [
-            // Positioned(
-            //   top: 62.4,
-            //   left: 18.3,
-            //   child: IconButton(
-            //     onPressed: () {
-            //       print('Pressed');
-            //     },
-            //     icon: SvgPicture.asset('assets/svg/g8738.svg'),
-            //   ),
-            // ),
-            Form(
-              key: _formKey,
-              autovalidateMode: _autoValidate
-                  ? AutovalidateMode.always
-                  : AutovalidateMode.disabled,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Sign in',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  SizedBox(
-                    height: 40.2,
-                  ),
-                  Text(
-                    'Sign in using your email',
-                    style: Theme.of(context).textTheme.headline2,
-                  ),
-                  SizedBox(
-                    height: 10.1,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 9.1),
-                    child: TextFormField(
-                      onSaved: (email) {
-                        _email = email;
-                      },
-                      keyboardType: TextInputType.emailAddress,
-                      validator: Validator<String>(
-                        rules: [
-                          RequiredRule(
-                            validationMessage: 'Email is required.',
-                          ),
-                          EmailRule(
-                            validationMessage: 'This email is not true.',
-                          ),
-                        ],
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: constraints.maxWidth,
+                minHeight: constraints.maxHeight),
+            child: Padding(
+              padding: isWeb
+                  ? EdgeInsets.symmetric(vertical: 50.0, horizontal: 200)
+                  : EdgeInsets.symmetric(vertical: 50.0, horizontal: 12),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _autoValidate
+                    ? AutovalidateMode.always
+                    : AutovalidateMode.disabled,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(),
+                    SvgPicture.asset(
+                      'assets/svg/logo_admin.svg',
+                      height: 240,
+                      width: 240,
                     ),
-                  ),
-                  SizedBox(
-                    height: 28.8,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 9.1),
-                    child: TextFormField(
-                      obscureText: true,
-                      onSaved: (password) {
-                        _password = password;
-                      },
-                      validator: Validator<String>(
-                        rules: [
-                          RequiredRule(
-                            validationMessage: 'Password is required.',
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Sign in',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Text(
+                          'Sign in using your email',
+                          style: Theme.of(context).textTheme.headline2,
+                        ),
+                        SizedBox(
+                          height: 10.1,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 9.1),
+                          child: TextFormField(
+                            onSaved: (email) {
+                              _email = email;
+                            },
+                            keyboardType: TextInputType.emailAddress,
+                            validator: Validator<String>(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage: 'Email is required.',
+                                ),
+                                EmailRule(
+                                  validationMessage: 'This email is not true.',
+                                ),
+                              ],
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                            ),
                           ),
-                          MinLengthRule(
-                            6,
-                            validationMessage:
-                                'Password should contains 6 characters at least.',
+                        ),
+                        SizedBox(
+                          height: 28.8,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 9.1),
+                          child: TextFormField(
+                            obscureText: true,
+                            onSaved: (password) {
+                              _password = password;
+                            },
+                            validator: Validator<String>(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage: 'Password is required.',
+                                ),
+                                MinLengthRule(
+                                  6,
+                                  validationMessage:
+                                      'Password should contains 6 characters at least.',
+                                ),
+                              ],
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                            ),
                           ),
-                        ],
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 32,
-                  ),
-                  GestureDetector(
-                    onTap: () => _submit(),
-                    child: Container(
-                      width: double.infinity,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Login',
-                          style: Theme.of(context).textTheme.headline3,
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    GestureDetector(
+                      onTap: _submit,
+                      child: Container(
+                        width: double.infinity,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Login',
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
