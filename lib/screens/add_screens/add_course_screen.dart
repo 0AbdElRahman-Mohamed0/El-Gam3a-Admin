@@ -114,108 +114,113 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.7),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DropDown<DepartmentModel>(
-                        needSpace: false,
-                        labelText: 'Department',
-                        hintText: 'Select department',
-                        onChanged: (value) {
-                          _department = value;
-                          setState(() {});
-                        },
-                        list: departments,
-                        onSaved: (value) {
-                          _department = value;
-                        },
-                        validator: (v) =>
-                            v == null ? 'You must choose department.' : null,
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      TextDataField(
-                        labelName: 'Name',
-                        hintText: 'Enter Course Name',
-                        onSaved: (name) {
-                          _name = name;
-                        },
-                        validator: Validator(
-                          rules: [
-                            RequiredRule(
-                              validationMessage: 'Name is required.',
-                            ),
-                            MinLengthRule(
-                              3,
-                              validationMessage:
-                                  'Name should have at least 3 characters.',
-                            ),
-                          ],
-                        ),
-                      ),
-                      TextDataField(
-                        labelName: 'Code',
-                        hintText: 'Enter Course Code',
-                        onSaved: (code) {
-                          _code = code;
-                        },
-                        validator: Validator(
-                          rules: [
-                            RequiredRule(
-                              validationMessage: 'Code is required.',
-                            ),
-                            MinLengthRule(
-                              3,
-                              validationMessage:
-                                  'Code should have at least 3 characters.',
-                            ),
-                          ],
-                        ),
-                      ),
-                      TextDataField(
-                        maxLength: 1,
-                        labelName: 'Credit Hours',
-                        hintText: 'Enter Course Credit Hours',
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp('[1-3]')),
-                        ],
-                        onSaved: (hours) {
-                          _creditHours = num.parse(hours);
-                        },
-                        validator: Validator(
-                          rules: [
-                            RequiredRule(
-                              validationMessage: 'Credit hours is required.',
-                            ),
-                            MaxLengthRule(
-                              1,
-                              validationMessage:
-                                  'Credit hours should have only 1 characters.',
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
+                      Column(
                         children: [
-                          Checkbox(
-                            activeColor: Theme.of(context).primaryColor,
-                            value: _isRequired,
+                          DropDown<DepartmentModel>(
+                            needSpace: false,
+                            labelText: 'Department',
+                            hintText: 'Select department',
                             onChanged: (value) {
-                              _isRequired = value;
+                              _department = value;
                               setState(() {});
                             },
+                            list: departments,
+                            onSaved: (value) {
+                              _department = value;
+                            },
+                            validator: (v) => v == null
+                                ? 'You must choose department.'
+                                : null,
                           ),
-                          Text(
-                            'Is required ?',
-                            style: Theme.of(context).textTheme.headline1,
+                          SizedBox(
+                            height: 24,
+                          ),
+                          TextDataField(
+                            labelName: 'Name',
+                            hintText: 'Enter Course Name',
+                            onSaved: (name) {
+                              _name = name;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage: 'Name is required.',
+                                ),
+                                MinLengthRule(
+                                  3,
+                                  validationMessage:
+                                      'Name should have at least 3 characters.',
+                                ),
+                              ],
+                            ),
+                          ),
+                          TextDataField(
+                            labelName: 'Code',
+                            hintText: 'Enter Course Code',
+                            onSaved: (code) {
+                              _code = code;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage: 'Code is required.',
+                                ),
+                                MinLengthRule(
+                                  3,
+                                  validationMessage:
+                                      'Code should have at least 3 characters.',
+                                ),
+                              ],
+                            ),
+                          ),
+                          TextDataField(
+                            maxLength: 1,
+                            labelName: 'Credit Hours',
+                            hintText: 'Enter Course Credit Hours',
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp('[1-3]')),
+                            ],
+                            onSaved: (hours) {
+                              _creditHours = num.parse(hours);
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage:
+                                      'Credit hours is required.',
+                                ),
+                                MaxLengthRule(
+                                  1,
+                                  validationMessage:
+                                      'Credit hours should have only 1 characters.',
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Checkbox(
+                                activeColor: Theme.of(context).primaryColor,
+                                value: _isRequired,
+                                onChanged: (value) {
+                                  _isRequired = value;
+                                  setState(() {});
+                                },
+                              ),
+                              Text(
+                                'Is required ?',
+                                style: Theme.of(context).textTheme.headline1,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 21,
-                      ),
                       GestureDetector(
-                        onTap: () => _submit(),
+                        onTap: _submit,
                         child: Container(
                           width: double.infinity,
                           height: 48,

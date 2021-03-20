@@ -70,58 +70,65 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
           style: Theme.of(context).textTheme.headline3,
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 24),
-        child: Form(
-          key: _formKey,
-          autovalidateMode: _autoValidate
-              ? AutovalidateMode.always
-              : AutovalidateMode.disabled,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.7),
-            child: Column(
-              children: [
-                TextDataField(
-                  labelName: 'University ID',
-                  hintText: 'Enter User University ID',
-                  maxLength: 11,
-                  onSaved: (id) {
-                    _univID = id;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                        validationMessage: 'University ID is required.',
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: constraints.maxWidth,
+                minHeight: constraints.maxHeight),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 24),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _autoValidate
+                    ? AutovalidateMode.always
+                    : AutovalidateMode.disabled,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.7),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextDataField(
+                        labelName: 'University ID',
+                        hintText: 'Enter User University ID',
+                        maxLength: 11,
+                        onSaved: (id) {
+                          _univID = id;
+                        },
+                        validator: Validator(
+                          rules: [
+                            RequiredRule(
+                              validationMessage: 'University ID is required.',
+                            ),
+                            MaxLengthRule(
+                              11,
+                              validationMessage:
+                                  'University ID should have 11 characters.',
+                            ),
+                          ],
+                        ),
                       ),
-                      MaxLengthRule(
-                        11,
-                        validationMessage:
-                            'University ID should have 11 characters.',
+                      GestureDetector(
+                        onTap: () => _submit(),
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Theme.of(context).buttonColor,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Delete User',
+                              style: Theme.of(context).textTheme.headline3,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 50,
-                ),
-                GestureDetector(
-                  onTap: () => _submit(),
-                  child: Container(
-                    width: double.infinity,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Theme.of(context).buttonColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Delete User',
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),

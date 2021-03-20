@@ -114,158 +114,174 @@ class _AddUserScreenState extends State<AddUserScreen> {
           style: Theme.of(context).textTheme.headline3,
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: Form(
-          key: _formKey,
-          autovalidateMode: _autoValidate
-              ? AutovalidateMode.always
-              : AutovalidateMode.disabled,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.7),
-            child: Column(
-              children: [
-                TextDataField(
-                  autofocus: true,
-                  labelName: 'Name',
-                  hintText: 'Enter Name',
-                  onSaved: (name) {
-                    _name = name;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                        validationMessage: 'Name is required.',
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: constraints.maxWidth,
+                minHeight: constraints.maxHeight),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _autoValidate
+                    ? AutovalidateMode.always
+                    : AutovalidateMode.disabled,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.7),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          TextDataField(
+                            labelName: 'Name',
+                            hintText: 'Enter Name',
+                            onSaved: (name) {
+                              _name = name;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage: 'Name is required.',
+                                ),
+                                MinLengthRule(
+                                  3,
+                                  validationMessage:
+                                      'Name should have at least 3 characters.',
+                                ),
+                              ],
+                            ),
+                          ),
+                          TextDataField(
+                            maxLength: 11,
+                            labelName: 'Phone number',
+                            hintText: 'Enter Phone Number',
+                            keyboardType: TextInputType.number,
+                            onSaved: (phoneNumber) {
+                              _phoneNumber = phoneNumber;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                  validationMessage:
+                                      'Phone number is required.',
+                                ),
+                                MinLengthRule(11,
+                                    validationMessage:
+                                        'Phone number should be 11 number.'),
+                              ],
+                            ),
+                          ),
+                          TextDataField(
+                            keyboardType: TextInputType.emailAddress,
+                            labelName: 'Email',
+                            hintText: 'Enter Email',
+                            onSaved: (email) {
+                              _email = email;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                    validationMessage: 'Email is required.'),
+                              ],
+                            ),
+                          ),
+                          DropDown(
+                            needSpace: false,
+                            labelText: 'User type',
+                            hintText: 'Select user type',
+                            list: types,
+                            onChanged: (type) {
+                              _type = type;
+                              setState(() {});
+                            },
+                            onSaved: (type) {
+                              _type = type;
+                            },
+                            validator: (String v) =>
+                                v == null ? 'You must choose user type.' : null,
+                          ),
+                          SizedBox(
+                            height: 21,
+                          ),
+                          TextDataField(
+                            maxLength: 11,
+                            keyboardType: TextInputType.number,
+                            labelName: 'User ID',
+                            hintText: 'Enter user id',
+                            onSaved: (univID) {
+                              _univID = univID;
+                            },
+                            validator: Validator(
+                              rules: [
+                                RequiredRule(
+                                    validationMessage: 'User ID is required.'),
+                                MinLengthRule(11,
+                                    validationMessage:
+                                        'User ID should be 11 number.'),
+                              ],
+                            ),
+                          ),
+                          if (_type == 'Student') ...{
+                            DropDown(
+                              needSpace: false,
+                              labelText: 'Division',
+                              hintText: 'Select division',
+                              list: divisions,
+                              onChanged: (division) {
+                                _division = division;
+                                setState(() {});
+                              },
+                              onSaved: (division) {
+                                _division = division;
+                              },
+                              validator: (String v) => v == null
+                                  ? 'You must choose division.'
+                                  : null,
+                            ),
+                          },
+                          if (_type == 'Professor') ...{
+                            DropDown<DepartmentModel>(
+                              needSpace: false,
+                              labelText: 'Department',
+                              hintText: 'Select department',
+                              list: departments,
+                              onChanged: (department) {
+                                _department = department.name;
+                                setState(() {});
+                              },
+                              onSaved: (department) {
+                                _department = department.name;
+                              },
+                              validator: (v) => v == null
+                                  ? 'You must choose department.'
+                                  : null,
+                            ),
+                          },
+                        ],
                       ),
-                      MinLengthRule(
-                        3,
-                        validationMessage:
-                            'Name should have at least 3 characters.',
+                      GestureDetector(
+                        onTap: _submit,
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Theme.of(context).buttonColor,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Add User',
+                              style: Theme.of(context).textTheme.headline3,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-                TextDataField(
-                  maxLength: 11,
-                  labelName: 'Phone number',
-                  hintText: 'Enter Phone Number',
-                  keyboardType: TextInputType.number,
-                  onSaved: (phoneNumber) {
-                    _phoneNumber = phoneNumber;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(
-                        validationMessage: 'Phone number is required.',
-                      ),
-                      MinLengthRule(11,
-                          validationMessage:
-                              'Phone number should be 11 number.'),
-                    ],
-                  ),
-                ),
-                TextDataField(
-                  keyboardType: TextInputType.emailAddress,
-                  labelName: 'Email',
-                  hintText: 'Enter Email',
-                  onSaved: (email) {
-                    _email = email;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(validationMessage: 'Email is required.'),
-                    ],
-                  ),
-                ),
-                DropDown(
-                  needSpace: false,
-                  labelText: 'User type',
-                  hintText: 'Select user type',
-                  list: types,
-                  onChanged: (type) {
-                    _type = type;
-                    setState(() {});
-                  },
-                  onSaved: (type) {
-                    _type = type;
-                  },
-                  validator: (String v) =>
-                      v == null ? 'You must choose user type.' : null,
-                ),
-                SizedBox(
-                  height: 21,
-                ),
-                TextDataField(
-                  maxLength: 11,
-                  keyboardType: TextInputType.number,
-                  labelName: 'User ID',
-                  hintText: 'Enter user id',
-                  onSaved: (univID) {
-                    _univID = univID;
-                  },
-                  validator: Validator(
-                    rules: [
-                      RequiredRule(validationMessage: 'User ID is required.'),
-                      MinLengthRule(11,
-                          validationMessage: 'User ID should be 11 number.'),
-                    ],
-                  ),
-                ),
-                if (_type == 'Student') ...{
-                  DropDown(
-                    needSpace: false,
-                    labelText: 'Division',
-                    hintText: 'Select division',
-                    list: divisions,
-                    onChanged: (division) {
-                      _division = division;
-                      setState(() {});
-                    },
-                    onSaved: (division) {
-                      _division = division;
-                    },
-                    validator: (String v) =>
-                        v == null ? 'You must choose division.' : null,
-                  ),
-                },
-                if (_type == 'Professor') ...{
-                  DropDown<DepartmentModel>(
-                    needSpace: false,
-                    labelText: 'Department',
-                    hintText: 'Select department',
-                    list: departments,
-                    onChanged: (department) {
-                      _department = department.name;
-                      setState(() {});
-                    },
-                    onSaved: (department) {
-                      _department = department.name;
-                    },
-                    validator: (v) =>
-                        v == null ? 'You must choose department.' : null,
-                  ),
-                },
-                SizedBox(
-                  height: 21,
-                ),
-                GestureDetector(
-                  onTap: () => _submit(),
-                  child: Container(
-                    width: double.infinity,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Theme.of(context).buttonColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Add User',
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
