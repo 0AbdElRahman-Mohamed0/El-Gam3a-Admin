@@ -38,7 +38,10 @@ class UserAddedPopUp extends StatelessWidget {
           ),
           SizedBox(height: 24.0),
           RaisedButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4.0),
             ),
