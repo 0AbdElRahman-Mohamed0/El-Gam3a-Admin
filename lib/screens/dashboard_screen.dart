@@ -24,7 +24,7 @@ class DashboardScreen extends StatelessWidget {
               height: 23.2,
             ),
             Text(
-              'Welcome to El-Gam3a\nfor Admin.',
+              'Welcome to El-Gam3a\nfor Admins.',
               style: Theme.of(context).textTheme.headline2,
               textAlign: TextAlign.center,
             ),
