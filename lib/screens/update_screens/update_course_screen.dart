@@ -182,7 +182,6 @@ class _UpdateCourseScreenState extends State<UpdateCourseScreen> {
                               onSaved: (code) {
                                 _code = code;
                               },
-                              keyboardType: TextInputType.number,
                               validator: Validator(
                                 rules: [
                                   RequiredRule(
